@@ -5,13 +5,13 @@
 	"keywords": ["framework"],
 	"homepage": "https://github.com/lode/fem",
 	"license": "MIT",
-	"authors": {
+	"authors": [
 		{
 			"name": "Lode Claassen",
 			"email": "lode@alsvanzelf.nl",
 			"homepage": "http://www.lodeclaassen.nl/"
 		}
-	},
+	],
 	"require": {
 		"php": ">=5.3.8"
 	},
