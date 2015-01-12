@@ -1,0 +1,23 @@
+{
+	"name": "alsvanzelf/fem",
+	"type": "library",
+	"description": "a framework for makers",
+	"keywords": ["framework"],
+	"homepage": "https://github.com/lode/fem",
+	"license": "MIT",
+	"authors": {
+		{
+			"name": "Lode Claassen",
+			"email": "lode@alsvanzelf.nl",
+			"homepage": "http://www.lodeclaassen.nl/"
+		}
+	},
+	"require": {
+		"php": ">=5.3.8"
+	},
+	"autoload": {
+		"psr-4": {
+			"fem\\": "src/"
+		}
+	}
+}
