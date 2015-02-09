@@ -97,7 +97,7 @@ protected function handle($handler) {
 	
 	// unmatched requests
 	if (empty($handler) || empty($handler_type)) {
-		error::not_found(404, $this->url, $this->method);
+		http_response_code(404);
 		exit;
 	}
 	
@@ -144,7 +144,7 @@ protected function initialize() {
 	$this->method = \fem\session::get_method();
 	
 	if (empty($this->method)) {
-		error::internal(501);
+		http_response_code(501);
 		exit;
 	}
 }
