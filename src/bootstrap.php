@@ -25,7 +25,7 @@ public function __construct() {
 private static function environment() {
 	define('fem\ENVIRONMENT',  getenv('APP_ENV'));
 	define('fem\ROOT_DIR',     realpath(__DIR__.'/../../').'/');
-	define('fem\ROOT_DIR_APP', \fem\ROOT_DIR_APP.'application/');
+	define('fem\ROOT_DIR_APP', \fem\ROOT_DIR.'application/');
 	
 	if (empty(\fem\ENVIRONMENT)) {
 		echo 'no environment set';

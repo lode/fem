@@ -109,7 +109,7 @@ protected function handle($handler) {
  * finds the handler's file
  * 
  * @param  string $filename a filename, relative to the handlers directory, and w/o '.php'
- * @return string|boolean   the full path, including \fem\ROOT
+ * @return string|boolean   the full path, including \fem\ROOT_DIR_APP
  *                          or false when not found
  */
 protected function find_handler_path($filename) {
@@ -119,7 +119,7 @@ protected function find_handler_path($filename) {
 		return false;
 	}
 	
-	$base_path = \fem\ROOT.'application/'.$this->handler_base_path.'/';
+	$base_path = \fem\ROOT_DIR_APP.$this->handler_base_path.'/';
 	$full_path = $base_path.$filename.'.php';
 	if (file_exists($full_path) == false) {
 		return false;

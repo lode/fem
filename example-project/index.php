@@ -13,4 +13,4 @@ require '../vendor/autoload.php';
  * if you want to use your own routing, remove `\fem\` from the routing line
  */
 new \fem\bootstrap();
-new \fem\routing;
+new \fem\routing();
