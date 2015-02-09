@@ -17,7 +17,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"fem\\": "src/"
+			"alsvanzelf\\fem\\": "src/"
 		}
 	}
 }
