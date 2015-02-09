@@ -1,7 +1,7 @@
 <?php
 
 namespace projectname;
-use fem;
+use alsvanzelf\fem;
 
 class routing extends fem\routing {
 
@@ -18,7 +18,7 @@ protected $map_to_filesystem = false;
  * .. maps the GET url 'foo' to the file 'bar'
  * 
  * the url-regex doesn't need regex boundaries like '/foo/'
- * @see \fem\routing::get_handler_type() for the different ways to define a handler
+ * @see \alsvanzelf\fem\routing::get_handler_type() for the different ways to define a handler
  */
 protected function get_custom_routes() {
 	$routes = array();

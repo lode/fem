@@ -10,7 +10,7 @@ require '../vendor/autoload.php';
 /**
  * bootstraps the fem framework
  * 
- * if you want to use your own routing, remove `\fem\` from the routing line
+ * if you want to use your own routing, remove `\alsvanzelf\fem\` from the routing line
  */
-new \fem\bootstrap();
-new \fem\routing();
+new \alsvanzelf\fem\bootstrap();
+new \alsvanzelf\fem\routing();

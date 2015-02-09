@@ -1,6 +1,6 @@
 <?php
 
-namespace fem;
+namespace alsvanzelf\fem;
 
 /**
  * catching urls
@@ -109,7 +109,7 @@ protected function handle($handler) {
  * finds the handler's file
  * 
  * @param  string $filename a filename, relative to the handlers directory, and w/o '.php'
- * @return string|boolean   the full path, including \fem\ROOT_DIR_APP
+ * @return string|boolean   the full path, including \alsvanzelf\fem\ROOT_DIR_APP
  *                          or false when not found
  */
 protected function find_handler_path($filename) {
@@ -119,7 +119,7 @@ protected function find_handler_path($filename) {
 		return false;
 	}
 	
-	$base_path = \fem\ROOT_DIR_APP.$this->handler_base_path.'/';
+	$base_path = \alsvanzelf\fem\ROOT_DIR_APP.$this->handler_base_path.'/';
 	$full_path = $base_path.$filename.'.php';
 	if (file_exists($full_path) == false) {
 		return false;
@@ -137,11 +137,11 @@ protected function find_handler_path($filename) {
  * makes sure $this->url and $this->method exist
  * 
  * @return void, however, it can fire an error for unknown http methods
- *               @see \fem\session::get_method() for which ones are supported
+ *               @see \alsvanzelf\fem\session::get_method() for which ones are supported
  */
 protected function initialize() {
-	$this->url    = \fem\session::get_url();
-	$this->method = \fem\session::get_method();
+	$this->url    = \alsvanzelf\fem\session::get_url();
+	$this->method = \alsvanzelf\fem\session::get_method();
 	
 	if (empty($this->method)) {
 		http_response_code(501);

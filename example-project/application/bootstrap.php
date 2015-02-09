@@ -1,7 +1,7 @@
 <?php
 
 namespace projectname;
-use fem;
+use alsvanzelf\fem;
 
 class bootstrap extends fem\bootstrap {
 

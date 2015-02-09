@@ -1,6 +1,6 @@
 <?php
 
-namespace fem;
+namespace alsvanzelf\fem;
 
 class bootstrap {
 
@@ -23,11 +23,11 @@ public function __construct() {
  * defines environment and root dir
  */
 private static function environment() {
-	define('fem\ENVIRONMENT',  getenv('APP_ENV'));
-	define('fem\ROOT_DIR',     realpath(__DIR__.'/../../').'/');
-	define('fem\ROOT_DIR_APP', \fem\ROOT_DIR.'application/');
+	define('alsvanzelf\fem\ENVIRONMENT',  getenv('APP_ENV'));
+	define('alsvanzelf\fem\ROOT_DIR',     realpath(__DIR__.'/../../../../').'/');
+	define('alsvanzelf\fem\ROOT_DIR_APP', \alsvanzelf\fem\ROOT_DIR.'application/');
 	
-	if (empty(\fem\ENVIRONMENT)) {
+	if (empty(\alsvanzelf\fem\ENVIRONMENT)) {
 		echo 'no environment set';
 		exit;
 	}
@@ -52,7 +52,7 @@ private static function uncertain() {
 	ini_set('display_startup_errors', 0);
 	ini_set('display_errors', 0);
 	error_reporting(0);
-	if (\fem\ENVIRONMENT == 'development') {
+	if (\alsvanzelf\fem\ENVIRONMENT == 'development') {
 		ini_set('display_startup_errors', 1);
 		ini_set('display_errors', 1);
 		error_reporting(-1);

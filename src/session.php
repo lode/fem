@@ -1,6 +1,6 @@
 <?php
 
-namespace fem;
+namespace alsvanzelf\fem;
 
 class session {
 
