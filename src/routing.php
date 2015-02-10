@@ -137,11 +137,11 @@ protected function find_handler_path($filename) {
  * makes sure $this->url and $this->method exist
  * 
  * @return void, however, it can fire an error for unknown http methods
- *               @see \alsvanzelf\fem\session::get_method() for which ones are supported
+ *               @see \alsvanzelf\fem\request::get_method() for which ones are supported
  */
 protected function initialize() {
-	$this->url    = \alsvanzelf\fem\session::get_url();
-	$this->method = \alsvanzelf\fem\session::get_method();
+	$this->url    = \alsvanzelf\fem\request::get_url();
+	$this->method = \alsvanzelf\fem\request::get_method();
 	
 	if (empty($this->method)) {
 		http_response_code(501);

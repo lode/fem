@@ -2,7 +2,7 @@
 
 namespace alsvanzelf\fem;
 
-class session {
+class request {
 
 /**
  * get the request url from the current session
