@@ -26,7 +26,7 @@ namespace alsvanzelf\fem;
  * 
  * @note the vhost must have `UseCanonicalName on` for session cookies to work
  * 
- * @todo decoupled session data by implementing set(__NAMESPACE__, ...)
+ * @todo prevent key conflicts with something like ::set(__NAMESPACE__, ...)
  */
 class session {
 
@@ -73,8 +73,8 @@ const COOKIE_NAME_PREFIX = 'fem-session';
  * create a new session, destroying any current session
  * use this when you want to *start* tracking a user
  * 
- * @param  string $type one of the self::TYPE_* consts
- *                      optional, defaults to self::TYPE_CONTINUOUS
+ * @param  string $type one of the ::TYPE_* consts
+ *                      optional, defaults to ::TYPE_CONTINUOUS
  * @return void
  */
 public static function create($type=null) {
@@ -91,8 +91,8 @@ public static function create($type=null) {
  * @note this does *not* create a new session if one doesn't already exist
  * @see  ::start() if you always want to create a new one anyway
  * 
- * @param  string $type one of the self::TYPE_* consts
- *                      optional, defaults to self::TYPE_CONTINUOUS
+ * @param  string $type one of the ::TYPE_* consts
+ *                      optional, defaults to ::TYPE_CONTINUOUS
  * @return void
  */
 public static function keep($type=null) {
@@ -126,8 +126,8 @@ public static function is_active() {
  * - validates sessions
  * - regenerates ids on an interval
  * 
- * @param  string $type one of the self::TYPE_* consts
- *                      optional, defaults to self::TYPE_CONTINUOUS
+ * @param  string $type one of the ::TYPE_* consts
+ *                      optional, defaults to ::TYPE_CONTINUOUS
  * @return void
  */
 public static function start($type=null) {
@@ -154,7 +154,7 @@ public static function start($type=null) {
 		self::regenerate_id($interval_based=true);
 	}
 	
-	$_SESSION['_session_fingerprint'] = request::get_fingerprint();
+	$_SESSION['_session_fingerprint'] = \alsvanzelf\fem\request::get_fingerprint();
 	$_SESSION['_session_last_active'] = time();
 }
 
@@ -186,7 +186,7 @@ public static function destroy() {
  * @return void
  */
 public static function regenerate_id($interval_based=false) {
-	if (session::is_active() == false) {
+	if (self::is_active() == false) {
 		throw new Exception('inactive session');
 	}
 	
@@ -214,7 +214,7 @@ public static function regenerate_id($interval_based=false) {
  * @return int|boolean
  */
 public static function get_user_id() {
-	if (session::is_active() == false) {
+	if (self::is_active() == false) {
 		return false;
 	}
 	if (empty($_SESSION['_session_user_id'])) {
@@ -231,7 +231,7 @@ public static function get_user_id() {
  * @param int $user_id
  */
 public static function set_user_id($user_id) {
-	if (session::is_active() == false) {
+	if (self::is_active() == false) {
 		throw new Exception('inactive session');
 	}
 	
@@ -245,7 +245,7 @@ public static function set_user_id($user_id) {
  * @return boolean
  */
 private static function is_valid() {
-	if (session::is_active() == false) {
+	if (self::is_active() == false) {
 		throw new Exception('inactive session');
 	}
 	
@@ -275,7 +275,7 @@ private static function is_valid() {
  * @return boolean
  */
 private static function validate() {
-	if (session::is_active() == false) {
+	if (self::is_active() == false) {
 		throw new Exception('inactive session');
 	}
 	
@@ -306,7 +306,7 @@ private static function validate() {
  * @return boolean false meaning the session should not be trusted
  */
 private static function challenge() {
-	if (session::is_active() == false) {
+	if (self::is_active() == false) {
 		throw new Exception('inactive session');
 	}
 	
@@ -315,7 +315,7 @@ private static function challenge() {
 	}
 	
 	$old_fingerprint = $_SESSION['_session_fingerprint'];
-	$new_fingerprint = request::get_fingerprint();
+	$new_fingerprint = \alsvanzelf\fem\request::get_fingerprint();
 	
 	$score = self::calculate_fingerprint_score($old_fingerprint, $new_fingerprint);
 	if ($score >= 1.5) {
@@ -367,7 +367,7 @@ private static function calculate_fingerprint_score($old_fingerprint, $new_finge
  * - null, it returns the default ::TYPE_CONTINUOUS
  * - not one of the allowed types, it throws an exception
  * 
- * @param  string $type one of the self::TYPE_* consts
+ * @param  string $type one of the ::TYPE_* consts
  * @return string|exception
  */
 private static function check_type($type=null) {
@@ -385,7 +385,7 @@ private static function check_type($type=null) {
 /**
  * generates a key for the session cookie
  * 
- * @param  string $type one of the self::TYPE_* consts
+ * @param  string $type one of the ::TYPE_* consts
  *                      defaults to the type of the current session
  * @return string       a concatenation of the base (see ::COOKIE_NAME_PREFIX) and the type
  *                      i.e. prefix + '-temporary'
@@ -401,7 +401,7 @@ private static function get_cookie_name($type=null) {
 /**
  * returns all keys needed for session cookie management
  * 
- * @param  string $type one of the self::TYPE_* consts
+ * @param  string $type one of the ::TYPE_* consts
  * @return array        keys 'name', 'duration', 'domain', 'path', 'secure', 'http_only'
  */
 private static function get_cookie_settings($type) {
@@ -425,7 +425,7 @@ private static function get_cookie_settings($type) {
 /**
  * checks whether an existing session could be started
  * 
- * @param  string $type one of the self::TYPE_* consts
+ * @param  string $type one of the ::TYPE_* consts
  * @return boolean
  */
 private static function cookie_exists($type) {
@@ -437,7 +437,7 @@ private static function cookie_exists($type) {
 /**
  * throws away the session cookie
  * 
- * @param  string $type one of the self::TYPE_* consts
+ * @param  string $type one of the ::TYPE_* consts
  *                      if null, defaults to removing cookies for all possible types
  * @return void
  */
