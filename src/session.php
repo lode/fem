@@ -5,9 +5,6 @@ namespace alsvanzelf\fem;
 /**
  * improved session handling
  * 
- * this handles session apart from users
- * user management is done by a user model and hatching on to a session
- * 
  * use this class' methods instead of native session functions for:
  * - session_start()         => session::start($type)
  *                           => session::create($type)
@@ -31,12 +28,15 @@ namespace alsvanzelf\fem;
 class session {
 
 /**
- * class of the user model, used for validating user sessions
- * the class needs to implement `bool public function validate_session(void)`
- * 
- * @note use fully qualified namespace when overriding
+ * the place to redirect users to when forced to login
  */
-protected static $user_class = 'user';
+protected static $login_url = 'login';
+
+/**
+ * call for extra validation for user sessions
+ * if the call returns false, the session will be destroyed
+ */
+protected static $validation_callback = null;
 
 /**
  * different session types
@@ -239,6 +239,38 @@ public static function set_user_id($user_id) {
 }
 
 /**
+ * checks whether the current user is logged in
+ * i.e. whether the session has a user attached via ::set_user_id()
+ * 
+ * @return boolean
+ */
+public static function is_loggedin() {
+	if (self::is_active() == false) {
+		return false;
+	}
+	if (empty(self::get_user_id())) {
+		return false;
+	}
+	
+	return true;
+}
+
+/**
+ * redirects the user to the login page when it is not logged in
+ * @see ::is_loggedin() for the check
+ * @see ::$login_url for the redirection
+ * 
+ * @return boolean|void returns true when loggedin, redirects otherwise
+ */
+public static function force_loggedin() {
+	if (self::is_loggedin() == false) {
+		\alsvanzelf\fem\request::redirect(self::$login_url);
+	}
+	
+	return true;
+}
+
+/**
  * wrapper for all kinds of validation methods
  * @see ::validate(), ::challenge() and user::validate_session()
  * 
@@ -256,11 +288,8 @@ private static function is_valid() {
 		return false;
 	}
 	
-	$user_id = self::get_user_id();
-	if ($user_id) {
-		$user_class  = self::$user_class;
-		$user_object = new $user_class($user_id);
-		if ($user_object->validate_session() == false) {
+	if (self::$validation_callback) {
+		if (self::$validation_callback() == false) {
 			return false;
 		}
 	}

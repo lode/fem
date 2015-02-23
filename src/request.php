@@ -5,6 +5,26 @@ namespace alsvanzelf\fem;
 class request {
 
 /**
+ * redirect a browser session to a new url
+ * also exists flow
+ * 
+ * @param  string $location relative to the host
+ * @return void
+ */
+public static function redirect($location) {
+	$base_url  = 'http';
+	$base_url .= ($_SERVER['HTTPS']) ? 's' : '';
+	$base_url .= '//'.$_SERVER['SERVER_NAME'];
+	
+	if (strpos($location, '/') !== 0) {
+		$base_url .= '/';
+	}
+	
+	header('Location: '.$base_url.$location);
+	exit;
+}
+
+/**
  * get the request url from the current session
  * 
  * @return string
