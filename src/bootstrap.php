@@ -74,6 +74,7 @@ private static function secure() {
 	
 	ini_set('session.use_trans_sid',    0);
 	ini_set('session.use_only_cookies', 1);
+	ini_set('session.cookie_httponly',  1);
 	ini_set('session.use_strict_mode',  1); // @note this is only effective from 5.5.2
 	ini_set('session.entropy_file',     '/dev/urandom');
 }

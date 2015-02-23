@@ -410,7 +410,7 @@ private static function get_cookie_settings($type) {
 	$domain    = $_SERVER['SERVER_NAME'];
 	$path      = '/';
 	$secure    = (bool)$_SERVER['HTTPS'];
-	$http_only = false;
+	$http_only = true;
 	
 	return array(
 		'name'      => $name,
