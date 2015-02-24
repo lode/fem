@@ -375,8 +375,11 @@ private static function calculate_fingerprint_score($old_fingerprint, $new_finge
 		}
 		
 		$old_value = $old_fingerprint[$key];
-		similar_text($old_value, $new_value, $similarity);
+		if (empty($old_value) && empty($new_value)) {
+			continue;
+		}
 		
+		similar_text($old_value, $new_value, $similarity);
 		if ($similarity < 70) {
 			$score += 1.5;
 		}

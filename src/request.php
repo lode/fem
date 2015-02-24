@@ -64,12 +64,12 @@ public static function get_method() {
  */
 public static function get_fingerprint() {
 	return array(
-		'ip_address'      => isset($_SERVER['REMOTE_ADDR']) ?          $_SERVER['REMOTE_ADDR']          : null,
-		'user_agent'      => isset($_SERVER['HTTP_USER_AGENT']) ?      $_SERVER['HTTP_USER_AGENT']      : null,
-		'accept_content'  => isset($_SERVER['HTTP_ACCEPT']) ?          $_SERVER['HTTP_ACCEPT']          : null,
-		'accept_charset'  => isset($_SERVER['HTTP_ACCEPT_CHARSET']) ?  $_SERVER['HTTP_ACCEPT_CHARSET']  : null,
-		'accept_encoding' => isset($_SERVER['HTTP_ACCEPT_ENCODING']) ? $_SERVER['HTTP_ACCEPT_ENCODING'] : null,
-		'accept_language' => isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : null,
+		'ip_address'      => !empty($_SERVER['REMOTE_ADDR']) ?          $_SERVER['REMOTE_ADDR']          : false,
+		'user_agent'      => !empty($_SERVER['HTTP_USER_AGENT']) ?      $_SERVER['HTTP_USER_AGENT']      : false,
+		'accept_content'  => !empty($_SERVER['HTTP_ACCEPT']) ?          $_SERVER['HTTP_ACCEPT']          : false,
+		'accept_charset'  => !empty($_SERVER['HTTP_ACCEPT_CHARSET']) ?  $_SERVER['HTTP_ACCEPT_CHARSET']  : false,
+		'accept_encoding' => !empty($_SERVER['HTTP_ACCEPT_ENCODING']) ? $_SERVER['HTTP_ACCEPT_ENCODING'] : false,
+		'accept_language' => !empty($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : false,
 	);
 }
 
