@@ -191,7 +191,7 @@ public static function destroy() {
  */
 public static function regenerate_id($interval_based=false) {
 	if (self::is_active() == false) {
-		throw new Exception('inactive session');
+		throw new \Exception('inactive session');
 	}
 	
 	$fresh_enough = ($_SESSION['_session_last_active'] > (time() - self::INTERVAL_REFRESH));
@@ -236,7 +236,7 @@ public static function get_user_id() {
  */
 public static function set_user_id($user_id) {
 	if (self::is_active() == false) {
-		throw new Exception('inactive session');
+		throw new \Exception('inactive session');
 	}
 	
 	$_SESSION['_session_user_id'] = $user_id;
@@ -282,7 +282,7 @@ public static function force_loggedin() {
  */
 private static function is_valid() {
 	if (self::is_active() == false) {
-		throw new Exception('inactive session');
+		throw new \Exception('inactive session');
 	}
 	
 	if (self::validate() == false) {
@@ -309,7 +309,7 @@ private static function is_valid() {
  */
 private static function validate() {
 	if (self::is_active() == false) {
-		throw new Exception('inactive session');
+		throw new \Exception('inactive session');
 	}
 	
 	if (empty($_SESSION['_session_type']) || empty($_SESSION['_session_last_active'])) {
@@ -340,11 +340,11 @@ private static function validate() {
  */
 private static function challenge() {
 	if (self::is_active() == false) {
-		throw new Exception('inactive session');
+		throw new \Exception('inactive session');
 	}
 	
 	if (empty($_SESSION['_session_fingerprint'])) {
-		throw new Exception('cannot challenge a fresh session');
+		throw new \Exception('cannot challenge a fresh session');
 	}
 	
 	$old_fingerprint = $_SESSION['_session_fingerprint'];
@@ -412,7 +412,7 @@ private static function check_type($type=null) {
 	}
 	
 	if (isset(self::$type_durations[$type]) == false) {
-		throw new Exception('unknown session type');
+		throw new \Exception('unknown session type');
 	}
 	
 	return $type;
