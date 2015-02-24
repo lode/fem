@@ -98,7 +98,7 @@ public static function create($type=null) {
 public static function keep($type=null) {
 	$type = self::check_type($type);
 	
-	if (self::cookie_exists($type) == false) {
+	if (self::cookie_exists($type)) {
 		self::start($type);
 	}
 }
@@ -134,15 +134,16 @@ public static function start($type=null) {
 	$type = self::check_type($type);
 	
 	$cookie = self::get_cookie_settings($type);
-	session_set_cookie_params($cookie['duration'], $cookie['domain'], $cookie['path'], $cookie['secure'], $cookie['http_only']);
+	session_set_cookie_params($cookie['duration'], $cookie['path'], $cookie['domain'], $cookie['secure'], $cookie['http_only']);
 	session_name($cookie['name']);
 	
 	session_start();
-	header('Cache-Control: private; no-cache="Set-Cookie"');
 	
 	if (empty($_SESSION['_session_type'])) {
 		// prevent session fixation
-		session_regenerate_id();
+		session_regenerate_id($delete=true);
+		
+		$_SESSION = array();
 		$_SESSION['_session_type'] = $type;
 	}
 	else {
@@ -165,7 +166,10 @@ public static function start($type=null) {
  * @return void
  */
 public static function destroy() {
-	session_destroy();
+	if (session_status() == PHP_SESSION_ACTIVE) {
+		session_destroy();
+	}
+	
 	$_SESSION = array();
 	
 	self::destroy_cookie();
@@ -441,7 +445,7 @@ private static function get_cookie_settings($type) {
 	$duration  = (time() + self::$type_durations[$type]);
 	$domain    = $_SERVER['SERVER_NAME'];
 	$path      = '/';
-	$secure    = (bool)$_SERVER['HTTPS'];
+	$secure    = !empty($_SERVER['HTTPS']) ? true : false;
 	$http_only = true;
 	
 	return array(
@@ -481,10 +485,14 @@ private static function destroy_cookie($type=null) {
 		return;
 	}
 	
+	if (self::cookie_exists($type) == false) {
+		return;
+	}
+	
 	$params = self::get_cookie_settings($type);
 	$params['duration'] = -(86400); // one day ago
 	
-	setcookie($params['name'], $params['duration'], $params['domain'], $params['path'], $params['secure'], $params['http_only']);
+	setcookie($params['name'], null, $params['duration'], $params['path'], $params['domain'], $params['secure'], $params['http_only']);
 	
 	unset($_COOKIE[ $params['name'] ]);
 }

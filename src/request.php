@@ -13,8 +13,8 @@ class request {
  */
 public static function redirect($location) {
 	$base_url  = 'http';
-	$base_url .= ($_SERVER['HTTPS']) ? 's' : '';
-	$base_url .= '//'.$_SERVER['SERVER_NAME'];
+	$base_url .= !empty($_SERVER['HTTPS']) ? 's' : '';
+	$base_url .= '://'.$_SERVER['SERVER_NAME'];
 	
 	if (strpos($location, '/') !== 0) {
 		$base_url .= '/';
