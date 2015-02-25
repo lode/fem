@@ -139,6 +139,9 @@ public static function start($type=null) {
 	
 	session_start();
 	
+	// prevent garbage collection before the session expires
+	ini_set('session.gc_maxlifetime', $cookie['duration']);
+	
 	if (empty($_SESSION['_session_type'])) {
 		// prevent session fixation
 		session_regenerate_id($delete=true);
@@ -153,6 +156,9 @@ public static function start($type=null) {
 		}
 		
 		self::regenerate_id($interval_based=true);
+		
+		// keep session active during activity
+		self::update_cookie_expiration($type);
 	}
 	
 	$_SESSION['_session_fingerprint'] = \alsvanzelf\fem\request::get_fingerprint();
@@ -495,6 +501,21 @@ private static function destroy_cookie($type=null) {
 	setcookie($params['name'], null, $params['duration'], $params['path'], $params['domain'], $params['secure'], $params['http_only']);
 	
 	unset($_COOKIE[ $params['name'] ]);
+}
+
+/**
+ * updates the cookies expiration with the type's duration
+ * useful to keep the cookie active after each user activity
+ * 
+ * @param  string $type one of the ::TYPE_* consts
+ * @return void
+ */
+private static function update_cookie_expiration($type) {
+	$params = self::get_cookie_settings($type);
+	$value  = session_id();
+	$expire = (time() + $params['duration']);
+	
+	setcookie($params['name'], $value, $expire, $params['path'], $params['domain'], $params['secure'], $params['http_only']);
 }
 
 }
