@@ -442,7 +442,7 @@ private static function get_cookie_name($type=null) {
  */
 private static function get_cookie_settings($type) {
 	$name      = self::get_cookie_name($type);
-	$duration  = (time() + self::$type_durations[$type]);
+	$duration  = self::$type_durations[$type];
 	$domain    = $_SERVER['SERVER_NAME'];
 	$path      = '/';
 	$secure    = !empty($_SERVER['HTTPS']) ? true : false;
@@ -490,7 +490,7 @@ private static function destroy_cookie($type=null) {
 	}
 	
 	$params = self::get_cookie_settings($type);
-	$params['duration'] = -(86400); // one day ago
+	$params['duration'] = (time() - 86400); // one day ago
 	
 	setcookie($params['name'], null, $params['duration'], $params['path'], $params['domain'], $params['secure'], $params['http_only']);
 	
