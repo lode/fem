@@ -495,25 +495,31 @@ private static function destroy_cookie($type=null) {
 		return;
 	}
 	
-	$params = self::get_cookie_settings($type);
-	$params['duration'] = (time() - 86400); // one day ago
+	self::update_cookie_expiration($type, $expire_now=true);
 	
-	setcookie($params['name'], null, $params['duration'], $params['path'], $params['domain'], $params['secure'], $params['http_only']);
-	
-	unset($_COOKIE[ $params['name'] ]);
+	$cookie_name = self::get_cookie_name($type);
+	unset($_COOKIE[$cookie_name]);
 }
 
 /**
  * updates the cookies expiration with the type's duration
  * useful to keep the cookie active after each user activity
  * 
- * @param  string $type one of the ::TYPE_* consts
+ * set $expire_now to true to remove the cookie
+ * 
+ * @param  string  $type       one of the ::TYPE_* consts
+ * @param  boolean $expire_now default false
  * @return void
  */
-private static function update_cookie_expiration($type) {
+private static function update_cookie_expiration($type, $expire_now=false) {
 	$params = self::get_cookie_settings($type);
 	$value  = session_id();
 	$expire = (time() + $params['duration']);
+	
+	if ($expire_now) {
+		$value  = null;
+		$expire = (time() - 604800); // one week ago
+	}
 	
 	setcookie($params['name'], $value, $expire, $params['path'], $params['domain'], $params['secure'], $params['http_only']);
 }
