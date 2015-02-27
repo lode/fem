@@ -258,7 +258,7 @@ public static function is_loggedin() {
 	if (self::is_active() == false) {
 		return false;
 	}
-	if (empty(self::get_user_id())) {
+	if (self::get_user_id() == false) {
 		return false;
 	}
 	

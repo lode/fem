@@ -27,7 +27,7 @@ private static function environment() {
 	define('alsvanzelf\fem\ROOT_DIR',     realpath(__DIR__.'/../../../../').'/');
 	define('alsvanzelf\fem\ROOT_DIR_APP', \alsvanzelf\fem\ROOT_DIR.'application/');
 	
-	if (empty(\alsvanzelf\fem\ENVIRONMENT)) {
+	if (constant('\alsvanzelf\fem\ENVIRONMENT') == false) {
 		echo 'no environment set';
 		exit;
 	}
