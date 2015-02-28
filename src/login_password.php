@@ -19,6 +19,11 @@ namespace alsvanzelf\fem;
 class login_password {
 
 /**
+ * minimum length of a password to be allowed to create a hash for it
+ */
+const MINIMUM_LENGTH = 8;
+
+/**
  * keeper of state
  */
 private $data;
@@ -129,10 +134,17 @@ public function set_new_hash($new_hash) {
  * generates a new hash for the given password
  * we wrap the native method to ensure a successful hash
  * 
+ * also enforces a minimum length for passwords
+ * @see ::MINIMUM_LENGTH
+ * 
  * @param  string $password
  * @return string
  */
 public static function hash_password($password) {
+	if (mb_strlen($password) < self::MINIMUM_LENGTH) {
+		throw new \Exception('passwords need a minimum length of '.self::MINIMUM_LENGTH);
+	}
+	
 	$hash = password_hash($password, PASSWORD_DEFAULT);
 	if (empty($hash)) {
 		throw new \Exception('unable to hash password');
