@@ -8,7 +8,7 @@ namespace alsvanzelf\fem;
  * requires ircmaxell/password-compat for php < 5.5
  * 
  * example usage:
- *   $login = login_password::get_by_email($email_address)
+ *   $login = login_password::get_by_email($email_address);
  *   if (empty($login) || $login->is_valid($password) == false) {
  *     // error
  *   }
@@ -78,7 +78,7 @@ public function is_valid($password, $check_rehash=true) {
 	
 	if ($check_rehash && password_needs_rehash($this->data['hash'], PASSWORD_DEFAULT)) {
 		$new_hash = self::hash_password($password);
-		self::set_new_hash($this->data['user_id'], $this->data['email_address'], $new_hash);
+		$this->set_new_hash($this->data['user_id'], $this->data['email_address'], $new_hash);
 	}
 	
 	return true;
@@ -132,7 +132,7 @@ public function set_new_hash($new_hash) {
  * @param  string $password
  * @return string
  */
-private static function hash_password($password) {
+public static function hash_password($password) {
 	$hash = password_hash($password, PASSWORD_DEFAULT);
 	if (empty($hash)) {
 		throw new \Exception('unable to hash password');
