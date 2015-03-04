@@ -131,6 +131,10 @@ public static function is_active() {
  * @return void
  */
 public static function start($type=null) {
+	if (self::is_active()) {
+		return;
+	}
+	
 	$type = self::check_type($type);
 	
 	$cookie = self::get_cookie_settings($type);
