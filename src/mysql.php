@@ -166,7 +166,7 @@ private static function merge($sql, $binds) {
  */
 private static function as_array(\mysqli_result $results) {
 	$array = array();
-	foreach ($results->fetch_assoc() as $row) {
+	while ($row = $results->fetch_assoc()) {
 		$array[] = $row;
 	}
 	
