@@ -40,7 +40,7 @@ public function __construct($id) {
 	$sql   = "SELECT * FROM `login_tokens` WHERE `id` = %d;";
 	$login = mysql::select('row', $sql, $id);
 	if (empty($login)) {
-		return;
+		throw new \Exception('token login not found');
 	}
 	
 	$this->data = $login;

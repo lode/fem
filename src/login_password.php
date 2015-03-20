@@ -32,7 +32,7 @@ public function __construct($id) {
 	$sql   = "SELECT * FROM `login_passwords` WHERE `id` = %d;";
 	$login = mysql::select('row', $sql, $id);
 	if (empty($login)) {
-		return;
+		throw new \Exception('password login not found');
 	}
 	
 	$this->data = $login;
