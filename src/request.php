@@ -12,15 +12,19 @@ class request {
  * @return void
  */
 public static function redirect($location) {
-	$base_url  = 'http';
-	$base_url .= !empty($_SERVER['HTTPS']) ? 's' : '';
-	$base_url .= '://'.$_SERVER['SERVER_NAME'];
-	
-	if (strpos($location, '/') !== 0) {
-		$base_url .= '/';
+	if (preg_match('{^(http(s)?:)?//}', $location) == false) {
+		$base_url  = 'http';
+		$base_url .= !empty($_SERVER['HTTPS']) ? 's' : '';
+		$base_url .= '://'.$_SERVER['SERVER_NAME'];
+		
+		if (strpos($location, '/') !== 0) {
+			$base_url .= '/';
+		}
+		
+		$location = $base_url.$location;
 	}
 	
-	header('Location: '.$base_url.$location);
+	header('Location: '.$location);
 	exit;
 }
 
