@@ -8,8 +8,6 @@ namespace alsvanzelf\fem;
  * instead of sending an previously generated token ..
  * .. a new token should be generated, and mailed, when a user wants to login
  * 
- * @todo create a generic re-usable token helper
- * 
  * example usage:
  *   $login = login_token::get_by_token($token)
  *   if (empty($login) || $login->is_valid() == false) {
@@ -125,14 +123,11 @@ public function mark_as_used() {
  * @return $this
  */
 public static function create($user_id) {
-	$byte_length = (self::TOKEN_LENGTH / 2);
-	$new_token = bin2hex(openssl_random_pseudo_bytes($byte_length, $strong_enough));
-	if ($strong_enough == false || empty($new_token)) {
-		throw new \Exception('can not generate a new token');
-	}
+	$new_token  = string::generate_token(self::TOKEN_LENGTH);
+	$expiration = (time() + self::EXPIRATION);
 	
 	$sql   = "INSERT INTO `login_tokens` SET `code` = '%s', `user_id` = %d, `expire_at` = %d;";
-	$binds = array($new_token, $user_id, (time()+self::EXPIRATION));
+	$binds = array($new_token, $user_id, $expiration);
 	mysql::query($sql, $binds);
 	
 	return new static(mysql::$insert_id);
