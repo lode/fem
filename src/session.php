@@ -302,8 +302,8 @@ private static function is_valid() {
 		return false;
 	}
 	
-	if (self::$validation_callback) {
-		if (self::$validation_callback() == false) {
+	if (is_callable(self::$validation_callback)) {
+		if (call_user_func(self::$validation_callback) == false) {
 			return false;
 		}
 	}
