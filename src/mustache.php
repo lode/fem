@@ -31,6 +31,19 @@ protected static function init() {
 		'pragmas'          => $pragmas,
 	);
 	self::$engine = new \Mustache_Engine($options);
+	
+	foreach (self::get_helpers() as $name => $callable) {
+		self::$engine->addHelper($name, function($content) use($callable) {
+			return $callable($content);
+		});
+	}
+}
+
+protected static function get_helpers() {
+	return array(
+		'resources_timestamp_css' => array('\alsvanzelf\fem\resources', 'timestamp_css'),
+		'resources_timestamp_js'  => array('\alsvanzelf\fem\resources', 'timestamp_js'),
+	);
 }
 
 public static function render($template, $data=array()) {
