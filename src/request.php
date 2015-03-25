@@ -61,6 +61,44 @@ public static function get_method() {
 }
 
 /**
+ * get the primary http accepted output format for the current session
+ * 
+ * @return string the most interesting part of the accept header ..
+ *                .. only the first format, and only the most determinating part ..
+ *                i.e. 'text/html, ...' returns 'html' and 'application/json, ...' returns 'json'
+ */
+public static function get_primary_accept() {
+	if (empty($_SERVER['HTTP_ACCEPT'])) {
+		return 'html';
+	}
+	
+	// catch the most common formats
+	if (strpos($_SERVER['HTTP_ACCEPT'], 'text/html,')) {
+		return 'html';
+	}
+	if (strpos($_SERVER['HTTP_ACCEPT'], 'application/json,')) {
+		return 'json';
+	}
+	
+	// use a generic method
+	$accept = $_SERVER['HTTP_ACCEPT'];
+	if (strpos($accept, ',')) {
+		$accept = substr($accept, 0, strpos($accept, ','));
+	}
+	if (strpos($accept, '/')) {
+		$accept = substr($accept, strpos($accept, '/')+1);
+	}
+	if (strpos($accept, ';')) {
+		$accept = substr($accept, 0, strpos($accept, ';'));
+	}
+	if (strpos($accept, '+')) {
+		$accept = substr($accept, 0, strpos($accept, '+'));
+	}
+	
+	return $accept;
+}
+
+/**
  * generates a fingerprint of the current request
  * it is based on: the users ip address, the user agent, and its accept properties
  * 

@@ -27,8 +27,9 @@ protected function get_custom_routes() {
 	$routes['GET']['foo'] = 'bar';
 	
 	// map to a method
-	$routes['GET']['foo'] = 'bar->baz';
-	$routes['GET']['foo'] = 'bar::baz';
+	$accept = fem\request::get_primary_accept(); // html, json, etc.
+	$routes['GET']['foo'] = 'bar->'.$accept;
+	$routes['GET']['foo'] = 'bar::'.$accept;
 	
 	// map to an inline function
 	$routes['GET']['foo'] = function($url, $method){};
