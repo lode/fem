@@ -11,7 +11,7 @@ class request {
  * @param  string $location relative to the host
  * @return void
  */
-public static function redirect($location) {
+public static function redirect($location, $stop_execution=true) {
 	if (preg_match('{^(http(s)?:)?//}', $location) == false) {
 		$base_url  = 'http';
 		$base_url .= !empty($_SERVER['HTTPS']) ? 's' : '';
@@ -25,6 +25,11 @@ public static function redirect($location) {
 	}
 	
 	header('Location: '.$location);
+	
+	if ($stop_execution == false) {
+		return;
+	}
+	
 	exit;
 }
 
