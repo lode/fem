@@ -209,7 +209,7 @@ private function find_custom_handler() {
 	// find a matching regex
 	$handler = false;
 	foreach ($routes[$this->method] as $url_regex => $possible_handler) {
-		if (preg_match('{'.$url_regex.'}', $this->url, $matches)) {
+		if (preg_match('{^'.$url_regex.'$}', $this->url, $matches)) {
 			$handler = $possible_handler;
 			
 			// save named subpatterns from the regex, to send them through to the handler
