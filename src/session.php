@@ -361,7 +361,7 @@ private static function challenge() {
 	$new_fingerprint = \alsvanzelf\fem\request::get_fingerprint();
 	
 	$score = self::calculate_fingerprint_score($old_fingerprint, $new_fingerprint);
-	if ($score >= 1.5) {
+	if ($score > 1.5) {
 		return false;
 	}
 	
@@ -397,10 +397,10 @@ private static function calculate_fingerprint_score($old_fingerprint, $new_finge
 		if ($similarity < 70) {
 			$score += 1.5;
 		}
-		if ($similarity < 80) {
+		elseif ($similarity < 80) {
 			$score += 1;
 		}
-		if ($similarity < 90) {
+		elseif ($similarity < 90) {
 			$score += 0.5;
 		}
 	}
