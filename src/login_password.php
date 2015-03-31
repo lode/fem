@@ -53,6 +53,16 @@ public function __get($key) {
 }
 
 /**
+ * property checks, i.e. for usage in mustache
+ * 
+ * @param  string  $key one of the database columns
+ * @return boolean
+ */
+public function __isset($key) {
+	return isset($this->data[$key]);
+}
+
+/**
  * checks whether the given email address match one on file
  * 
  * @param  string        $email_address

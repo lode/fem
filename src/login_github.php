@@ -195,6 +195,16 @@ public function __get($key) {
 }
 
 /**
+ * property checks, i.e. for usage in mustache
+ * 
+ * @param  string  $key one of the database columns
+ * @return boolean
+ */
+public function __isset($key) {
+	return isset($this->data[$key]);
+}
+
+/**
  * get the id of the user connected to this login
  * 
  * @return int
