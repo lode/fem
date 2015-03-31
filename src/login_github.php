@@ -113,7 +113,7 @@ public static function get_by_info($info, $update_oauth_token=true) {
  * @return $this|boolean false when the user id is not found
  */
 public static function get_by_user_id($user_id) {
-	$sql   = "SELECT * FROM `login_github` WHERE `user_id` = '%s';";
+	$sql   = "SELECT * FROM `login_github` WHERE `user_id` = %d;";
 	$login = mysql::select('row', $sql, $user_id);
 	if (empty($login)) {
 		return false;
@@ -218,11 +218,13 @@ public function update_oauth_token($new_oauth_token) {
 /**
  * send a user to github to authorize our application
  * 
- * @param  string $scope
+ * @param  string $scope        defaults to the scope of the previous authorization
+ *                              or no scopes at all if authorization is never done yet
+ *                              see https://developer.github.com/v3/oauth/#parameters
  * @param  string $callback_url defaults to what is set in the config
  * @return void                 even more so, the user is gone
  */
-public static function request_authorization($scope='user:email', $callback_url=null) {
+public static function request_authorization($scope=null, $callback_url=null) {
 	$config = static::get_config();
 	
 	if (!empty($callback_url) && strpos($callback_url, $config['callback_url']) !== 0) {
