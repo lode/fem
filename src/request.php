@@ -53,16 +53,16 @@ public static function get_url() {
  *                        or false for unknown types
  */
 public static function get_method() {
-	if (empty($_SERVER['HTTP_METHOD'])) {
+	if (empty($_SERVER['REQUEST_METHOD'])) {
 		return 'GET';
 	}
 	
 	$allowed_methods = array('GET', 'PUT', 'POST', 'PATCH', 'DELETE', 'OPTIONS', 'HEAD');
-	if (in_array($_SERVER['HTTP_METHOD'], $allowed_methods) == false) {
+	if (in_array($_SERVER['REQUEST_METHOD'], $allowed_methods) == false) {
 		return false;
 	}
 	
-	return $_SERVER['HTTP_METHOD'];
+	return $_SERVER['REQUEST_METHOD'];
 }
 
 /**
