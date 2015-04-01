@@ -6,7 +6,7 @@ class page {
 
 protected static $renderer = '\alsvanzelf\fem\mustache';
 
-private $data = array();
+protected $data = array();
 
 public function __construct($title) {
 	$this->data['title'] = $title;
