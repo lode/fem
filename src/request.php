@@ -66,6 +66,23 @@ public static function get_method() {
 }
 
 /**
+ * get the http ($_POST) data
+ * mainly useful for data from non-POST requests like PUT/PATCH/DELETE
+ * 
+ * @return array a like $_POST
+ */
+public static function get_data() {
+	if (static::get_method() == 'POST') {
+		return $_POST;
+	}
+	
+	$data_string = file_get_contents('php://input');
+	parse_str($data_string, $data_array);
+	
+	return $data_array;
+}
+
+/**
  * get the primary http accepted output format for the current session
  * 
  * @return string the most interesting part of the accept header ..
