@@ -20,4 +20,14 @@ public static function generate_token($length) {
 	return $new_token;
 }
 
+/**
+ * escape data for usage in html
+ * 
+ * @param  string $data utf-8 encoded
+ * @return string       the same data, escaped for html
+ */
+public function escape($data) {
+	return htmlspecialchars($data, ENT_QUOTES, 'UTF-8', $double=false);
+}
+
 }
