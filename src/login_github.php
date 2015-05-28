@@ -43,8 +43,10 @@ public static $callback_url = null;
 private $data;
 
 public function __construct($id) {
+	$mysql = bootstrap::get_library('mysql');
+	
 	$sql   = "SELECT * FROM `login_github` WHERE `id` = %d;";
-	$login = mysql::select('row', $sql, $id);
+	$login = $mysql::select('row', $sql, $id);
 	if (empty($login)) {
 		throw new \Exception('github login not found');
 	}
@@ -81,16 +83,18 @@ protected static function get_config() {
  * @return $this|boolean false               when the token is not found
  */
 public static function get_by_info($info, $update_oauth_token=true) {
+	$mysql = bootstrap::get_library('mysql');
+	
 	// find via the oauth token
 	$sql   = "SELECT * FROM `login_github` WHERE `oauth_token` = '%s';";
-	$login = mysql::select('row', $sql, $info['oauth_token']);
+	$login = $mysql::select('row', $sql, $info['oauth_token']);
 	if (!empty($login)) {
 		return new static($login['id']);
 	}
 	
 	// find via the github username
 	$sql   = "SELECT * FROM `login_github` WHERE `github_username` = '%s';";
-	$login = mysql::select('row', $sql, $info['github_username']);
+	$login = $mysql::select('row', $sql, $info['github_username']);
 	if (empty($login)) {
 		return false;
 	}
@@ -113,8 +117,10 @@ public static function get_by_info($info, $update_oauth_token=true) {
  * @return $this|boolean false when the user id is not found
  */
 public static function get_by_user_id($user_id) {
+	$mysql = bootstrap::get_library('mysql');
+	
 	$sql   = "SELECT * FROM `login_github` WHERE `user_id` = %d;";
-	$login = mysql::select('row', $sql, $user_id);
+	$login = $mysql::select('row', $sql, $user_id);
 	if (empty($login)) {
 		return false;
 	}
@@ -130,8 +136,10 @@ public static function get_by_user_id($user_id) {
  * @return $this|boolean false when the username is not found
  */
 public static function get_by_github_username($github_username) {
+	$mysql = bootstrap::get_library('mysql');
+	
 	$sql   = "SELECT * FROM `login_github` WHERE `github_username` = '%s';";
-	$login = mysql::select('row', $sql, $github_username);
+	$login = $mysql::select('row', $sql, $github_username);
 	if (empty($login)) {
 		return false;
 	}
@@ -147,8 +155,10 @@ public static function get_by_github_username($github_username) {
  * @return $this|boolean false when the token is not found
  */
 public static function get_by_oauth_token($oauth_token) {
+	$mysql = bootstrap::get_library('mysql');
+	
 	$sql   = "SELECT * FROM `login_github` WHERE `oauth_token` = '%s';";
-	$login = mysql::select('row', $sql, $oauth_token);
+	$login = $mysql::select('row', $sql, $oauth_token);
 	if (empty($login)) {
 		return false;
 	}
@@ -168,6 +178,8 @@ public static function signup($user_id, $info) {
 		throw new \Exception('all info from ::is_valid() is needed for signup');
 	}
 	
+	$mysql = bootstrap::get_library('mysql');
+	
 	$sql = "INSERT INTO `login_github` SET
 		`user_id` = %d,
 		`github_username` = '%s',
@@ -175,9 +187,9 @@ public static function signup($user_id, $info) {
 		`scope` = '%s'
 	;";
 	$binds = array($user_id, $info['github_username'], $info['oauth_token'], $info['scope']);
-	mysql::query($sql, $binds);
+	$mysql::query($sql, $binds);
 	
-	return new static(mysql::$insert_id);
+	return new static($mysql::$insert_id);
 }
 
 /**
@@ -220,9 +232,11 @@ public function get_user_id() {
  * @return void
  */
 public function update_oauth_token($new_oauth_token) {
+	$mysql = bootstrap::get_library('mysql');
+	
 	$sql   = "UPDATE `login_github` SET `oauth_token` = '%s' WHERE `id` = %d;";
 	$binds = array($new_oauth_token, $this->id);
-	mysql::query($sql, $binds);
+	$mysql::query($sql, $binds);
 }
 
 /**
@@ -244,10 +258,14 @@ public static function request_authorization($scope=null, $callback_url=null) {
 		$callback_url = $config['callback_url'];
 	}
 	
-	// state is a shared secret to prevent people faking the callback
-	$state = string::generate_token($length=40);
+	$string  = bootstrap::get_library('string');
+	$session = bootstrap::get_library('session');
+	$request = bootstrap::get_library('request');
 	
-	session::start(session::TYPE_TEMPORARY);
+	// state is a shared secret to prevent people faking the callback
+	$state = $string::generate_token($length=40);
+	
+	$session::start(session::TYPE_TEMPORARY);
 	$_SESSION['fem/login_github/state'] = $state;
 	$_SESSION['fem/login_github/scope'] = $scope;
 	
@@ -258,7 +276,7 @@ public static function request_authorization($scope=null, $callback_url=null) {
 		'scope'     => $scope,
 		'state'     => $state,
 	);
-	request::redirect($url.'?'.http_build_query($arguments));
+	$request::redirect($url.'?'.http_build_query($arguments));
 }
 
 /**
@@ -280,7 +298,8 @@ public static function is_valid($callback_data, $extended=true) {
 		throw new \Exception('state expected in oauth callback');
 	}
 	
-	session::start(session::TYPE_TEMPORARY);
+	$session = bootstrap::get_library('session');
+	$session::start($session::TYPE_TEMPORARY);
 	if ($callback_data['state'] != $_SESSION['fem/login_github/state']) {
 		throw new \Exception('state is different, someone tries to fake the callback?');
 	}

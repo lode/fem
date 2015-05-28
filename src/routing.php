@@ -140,8 +140,10 @@ protected function find_handler_path($filename) {
  *               @see \alsvanzelf\fem\request::get_method() for which ones are supported
  */
 protected function initialize() {
-	$this->url    = \alsvanzelf\fem\request::get_url();
-	$this->method = \alsvanzelf\fem\request::get_method();
+	$request = bootstrap::get_library('request');
+	
+	$this->url    = $request::get_url();
+	$this->method = $request::get_method();
 	
 	if (empty($this->method)) {
 		http_response_code(501);

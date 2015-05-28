@@ -29,8 +29,10 @@ const MINIMUM_LENGTH = 8;
 private $data;
 
 public function __construct($id) {
+	$mysql = bootstrap::get_library('mysql');
+	
 	$sql   = "SELECT * FROM `login_passwords` WHERE `id` = %d;";
-	$login = mysql::select('row', $sql, $id);
+	$login = $mysql::select('row', $sql, $id);
 	if (empty($login)) {
 		throw new \Exception('password login not found');
 	}
@@ -69,8 +71,10 @@ public function __isset($key) {
  * @return $this|boolean false when the email address is not found
  */
 public static function get_by_email($email_address) {
+	$mysql = bootstrap::get_library('mysql');
+	
 	$sql   = "SELECT * FROM `login_passwords` WHERE `email_address` = '%s';";
-	$login = mysql::select('row', $sql, $email_address);
+	$login = $mysql::select('row', $sql, $email_address);
 	if (empty($login)) {
 		return false;
 	}
@@ -116,11 +120,13 @@ public function get_user_id() {
  * @param string $password      in plain text
  */
 public function add($user_id, $email_address, $password) {
+	$mysql = bootstrap::get_library('mysql');
+	
 	$sql   = "INSERT INTO `login_passwords` SET `user_id` = %d, `email_address` = '%s';";
 	$binds = array($user_id, $email_address);
-	mysql::query($sql, $binds);
+	$mysql::query($sql, $binds);
 	
-	$login = new static(mysql::$insert_id);
+	$login = new static($mysql::$insert_id);
 	
 	$hash = self::hash_password($password);
 	$login->set_new_hash($hash);
@@ -133,9 +139,11 @@ public function add($user_id, $email_address, $password) {
  * @return void
  */
 public function set_new_hash($new_hash) {
+	$mysql = bootstrap::get_library('mysql');
+	
 	$sql   = "UPDATE `login_passwords` SET `hash` = '%s' WHERE `id` = %d;";
 	$binds = array($new_hash, $this->data['id']);
-	mysql::query($sql, $binds);
+	$mysql::query($sql, $binds);
 	
 	$this->data['hash'] = $new_hash;
 }

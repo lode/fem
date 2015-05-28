@@ -40,9 +40,11 @@ protected static function init() {
 }
 
 protected static function get_helpers() {
+	$resources_class = bootstrap::get_library('resources');
+	
 	return array(
-		'resources_timestamp_css' => array('\alsvanzelf\fem\resources', 'timestamp_css'),
-		'resources_timestamp_js'  => array('\alsvanzelf\fem\resources', 'timestamp_js'),
+		'resources_timestamp_css' => array($resources_class, 'timestamp_css'),
+		'resources_timestamp_js'  => array($resources_class, 'timestamp_js'),
 	);
 }
 

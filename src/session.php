@@ -165,7 +165,8 @@ public static function start($type=null) {
 		self::update_cookie_expiration($type);
 	}
 	
-	$_SESSION['_session_fingerprint'] = \alsvanzelf\fem\request::get_fingerprint();
+	$request = bootstrap::get_library('request');
+	$_SESSION['_session_fingerprint'] = $request::get_fingerprint();
 	$_SESSION['_session_last_active'] = time();
 }
 
@@ -278,7 +279,8 @@ public static function is_loggedin() {
  */
 public static function force_loggedin() {
 	if (self::is_loggedin() == false) {
-		\alsvanzelf\fem\request::redirect(self::$login_url);
+		$request = bootstrap::get_library('request');
+		$request::redirect(self::$login_url);
 	}
 	
 	return true;
@@ -357,8 +359,9 @@ private static function challenge() {
 		throw new \Exception('cannot challenge a fresh session');
 	}
 	
+	$request = bootstrap::get_library('request');
 	$old_fingerprint = $_SESSION['_session_fingerprint'];
-	$new_fingerprint = \alsvanzelf\fem\request::get_fingerprint();
+	$new_fingerprint = $request::get_fingerprint();
 	
 	$score = self::calculate_fingerprint_score($old_fingerprint, $new_fingerprint);
 	if ($score > 1.5) {
