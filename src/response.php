@@ -17,6 +17,7 @@ const STATUS_NOT_FOUND             = 404;
 const STATUS_METHOD_NOT_ALLOWED    = 405;
 const STATUS_UNPROCESSABLE_ENTITY  = 422;
 const STATUS_INTERNAL_SERVER_ERROR = 500;
+const STATUS_SERVICE_UNAVAILABLE   = 503;
 
 /**
  * human facing strings briefly describing each error
@@ -32,6 +33,7 @@ protected static $status_messages = array(
 	405 => 'Method not allowed',
 	422 => 'Unprocessable entity',
 	500 => 'Internal server error',
+	503 => 'Service unavailable',
 );
 
 /**

@@ -12,7 +12,7 @@ class build {
  */
 public static function database_dump_structure($dump_directory) {
 	if (is_dir($dump_directory) == false) {
-		throw new \Exception('directory not found');
+		throw new exception('directory not found');
 	}
 	
 	$mysql = bootstrap::get_library('mysql');

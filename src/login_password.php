@@ -34,7 +34,7 @@ public function __construct($id) {
 	$sql   = "SELECT * FROM `login_passwords` WHERE `id` = %d;";
 	$login = $mysql::select('row', $sql, $id);
 	if (empty($login)) {
-		throw new \Exception('password login not found');
+		throw new exception('password login not found');
 	}
 	
 	$this->data = $login;
@@ -160,12 +160,12 @@ public function set_new_hash($new_hash) {
  */
 public static function hash_password($password) {
 	if (mb_strlen($password) < self::MINIMUM_LENGTH) {
-		throw new \Exception('passwords need a minimum length of '.self::MINIMUM_LENGTH);
+		throw new exception('passwords need a minimum length of '.self::MINIMUM_LENGTH);
 	}
 	
 	$hash = password_hash($password, PASSWORD_DEFAULT);
 	if (empty($hash)) {
-		throw new \Exception('unable to hash password');
+		throw new exception('unable to hash password');
 	}
 	
 	return $hash;

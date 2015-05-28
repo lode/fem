@@ -34,7 +34,7 @@ public function __construct() {
  */
 public static function set_custom_library($name, $custom_class) {
 	if (class_exists('\\alsvanzelf\\fem\\'.$name) == false) {
-		throw new \Exception('library does not exist in fem');
+		throw new exception('library does not exist in fem');
 	}
 	
 	self::$custom_libraries[$name] = $custom_class;
@@ -50,7 +50,7 @@ public static function set_custom_library($name, $custom_class) {
  */
 public static function get_library($name) {
 	if (class_exists('\\alsvanzelf\\fem\\'.$name) == false) {
-		throw new \Exception('library does not exist in fem');
+		throw new exception('library does not exist in fem');
 	}
 	
 	if (isset(self::$custom_libraries[$name])) {
