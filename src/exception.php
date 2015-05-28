@@ -27,6 +27,8 @@ public function __construct($message='', $code=0, $previous=null, $userMessage=n
  * @return string
  */
 public function __toString() {
+	$this->file = static::clean_paths($this->file);
+	
 	try {
 		$page = bootstrap::get_library('page');
 		
@@ -74,6 +76,20 @@ public function setUserAction($userAction) {
  */
 public function getUserAction() {
 	return $this->userAction;
+}
+
+/**
+ * cleans file paths from redundant information
+ * i.e. ROOT_DIR and '.php' is removed
+ * 
+ * @param  string $string
+ * @return string
+ */
+public static function clean_paths($string) {
+	$string = str_replace(ROOT_DIR, '', $string);
+	$string = str_replace('.php', '', $string);
+	
+	return $string;
 }
 
 }

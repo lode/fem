@@ -35,13 +35,15 @@ public function exception($exception, $user_message=null) {
 		return $this->error('unknown exception format', response::STATUS_INTERNAL_SERVER_ERROR);
 	}
 	
+	$exception_class = bootstrap::get_library('exception');
+	
 	$this->data['exception']['current'] = $exception;
-	$this->data['exception']['current_trace_string'] = nl2br($exception->getTraceAsString());
+	$this->data['exception']['current_trace_string'] = $exception_class::clean_paths(nl2br($exception->getTraceAsString()));
 	
 	$previous = $exception->getPrevious();
 	if ($previous) {
 		$this->data['exception']['previous'] = $previous;
-		$this->data['exception']['previous_trace_string'] = nl2br($previous->getTraceAsString());
+		$this->data['exception']['previous_trace_string'] = $exception_class::clean_paths(nl2br($previous->getTraceAsString()));
 	}
 	
 	$reason = $exception->getMessage();
