@@ -147,14 +147,15 @@ protected function find_handler_path($filename) {
  *               @see \alsvanzelf\fem\request::get_method() for which ones are supported
  */
 protected function initialize() {
-	$request = bootstrap::get_library('request');
+	$request   = bootstrap::get_library('request');
+	$response  = bootstrap::get_library('response');
+	$exception = bootstrap::get_library('exception');
 	
 	$this->url    = $request::get_url();
 	$this->method = $request::get_method();
 	
 	if (empty($this->method)) {
-		http_response_code(501);
-		exit;
+		throw new $exception('unknown http method', $response::STATUS_METHOD_NOT_ALLOWED);
 	}
 }
 
