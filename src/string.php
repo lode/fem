@@ -14,7 +14,8 @@ public static function generate_token($length) {
 	$byte_length = ($length / 2);
 	$new_token = bin2hex(openssl_random_pseudo_bytes($byte_length, $strong_enough));
 	if ($strong_enough == false || empty($new_token)) {
-		throw new exception('can not generate cryptographically strong enough token');
+		$exception = bootstrap::get_library('exception');
+		throw new $exception('can not generate cryptographically strong enough token');
 	}
 	
 	return $new_token;

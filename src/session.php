@@ -202,7 +202,8 @@ public static function destroy() {
  */
 public static function regenerate_id($interval_based=false) {
 	if (self::is_active() == false) {
-		throw new exception('inactive session');
+		$exception = bootstrap::get_library('exception');
+		throw new $exception('inactive session');
 	}
 	
 	$fresh_enough = ($_SESSION['_session_last_active'] > (time() - self::INTERVAL_REFRESH));
@@ -247,7 +248,8 @@ public static function get_user_id() {
  */
 public static function set_user_id($user_id) {
 	if (self::is_active() == false) {
-		throw new exception('inactive session');
+		$exception = bootstrap::get_library('exception');
+		throw new $exception('inactive session');
 	}
 	
 	$_SESSION['_session_user_id'] = $user_id;
@@ -294,7 +296,8 @@ public static function force_loggedin() {
  */
 private static function is_valid() {
 	if (self::is_active() == false) {
-		throw new exception('inactive session');
+		$exception = bootstrap::get_library('exception');
+		throw new $exception('inactive session');
 	}
 	
 	if (self::validate() == false) {
@@ -321,7 +324,8 @@ private static function is_valid() {
  */
 private static function validate() {
 	if (self::is_active() == false) {
-		throw new exception('inactive session');
+		$exception = bootstrap::get_library('exception');
+		throw new $exception('inactive session');
 	}
 	
 	if (empty($_SESSION['_session_type']) || empty($_SESSION['_session_last_active'])) {
@@ -351,12 +355,14 @@ private static function validate() {
  * @return boolean false meaning the session should not be trusted
  */
 private static function challenge() {
+	$exception = bootstrap::get_library('exception');
+	
 	if (self::is_active() == false) {
-		throw new exception('inactive session');
+		throw new $exception('inactive session');
 	}
 	
 	if (empty($_SESSION['_session_fingerprint'])) {
-		throw new exception('cannot challenge a fresh session');
+		throw new $exception('cannot challenge a fresh session');
 	}
 	
 	$request = bootstrap::get_library('request');
@@ -425,7 +431,8 @@ private static function check_type($type=null) {
 	}
 	
 	if (isset(self::$type_durations[$type]) == false) {
-		throw new exception('unknown session type');
+		$exception = bootstrap::get_library('exception');
+		throw new $exception('unknown session type');
 	}
 	
 	return $type;

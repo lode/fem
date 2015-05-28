@@ -43,7 +43,8 @@ private static function get_timestamped_url($file, $type) {
 	$full_path = $base_path.$file.'.'.$type;
 	
 	if (file_exists($full_path) == false) {
-		throw new exception('can not find '.$type.' resource '.$file);
+		$exception = bootstrap::get_library('exception');
+		throw new $exception('can not find '.$type.' resource '.$file);
 	}
 	
 	$timestamp = filemtime($full_path);

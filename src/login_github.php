@@ -48,7 +48,8 @@ public function __construct($id) {
 	$sql   = "SELECT * FROM `login_github` WHERE `id` = %d;";
 	$login = $mysql::select('row', $sql, $id);
 	if (empty($login)) {
-		throw new exception('github login not found');
+		$exception = bootstrap::get_library('exception');
+		throw new $exception('github login not found');
 	}
 	
 	$this->data = $login;
@@ -62,7 +63,8 @@ public function __construct($id) {
 protected static function get_config() {
 	$config_file = \alsvanzelf\fem\ROOT_DIR.'config/github.ini';
 	if (file_exists($config_file) == false) {
-		throw new exception('no github application config found');
+		$exception = bootstrap::get_library('exception');
+		throw new $exception('no github application config found');
 	}
 	
 	return parse_ini_file($config_file);
@@ -175,7 +177,8 @@ public static function get_by_oauth_token($oauth_token) {
  */
 public static function signup($user_id, $info) {
 	if (empty($info['github_username']) || empty($info['oauth_token']) || empty($info['scope'])) {
-		throw new exception('all info from ::is_valid() is needed for signup');
+		$exception = bootstrap::get_library('exception');
+		throw new $exception('all info from ::is_valid() is needed for signup');
 	}
 	
 	$mysql = bootstrap::get_library('mysql');
@@ -252,7 +255,8 @@ public static function request_authorization($scope=null, $callback_url=null) {
 	$config = static::get_config();
 	
 	if (!empty($callback_url) && strpos($callback_url, $config['callback_url']) !== 0) {
-		throw new exception('custom callback url needs to start with defined callback url');
+		$exception = bootstrap::get_library('exception');
+		throw new $exception('custom callback url needs to start with defined callback url');
 	}
 	if (empty($callback_url)) {
 		$callback_url = $config['callback_url'];
@@ -294,14 +298,16 @@ public static function request_authorization($scope=null, $callback_url=null) {
  * @return boolean|array                returns array on successful validation and $extended set to true
  */
 public static function is_valid($callback_data, $extended=true) {
+	$exception = bootstrap::get_library('exception');
+	
 	if (empty($callback_data['state'])) {
-		throw new exception('state expected in oauth callback');
+		throw new $exception('state expected in oauth callback');
 	}
 	
 	$session = bootstrap::get_library('session');
 	$session::start($session::TYPE_TEMPORARY);
 	if ($callback_data['state'] != $_SESSION['fem/login_github/state']) {
-		throw new exception('state is different, someone tries to fake the callback?');
+		throw new $exception('state is different, someone tries to fake the callback?');
 	}
 	
 	if (empty($callback_data['code'])) {
@@ -378,7 +384,8 @@ public static function exchange_for_oauth_token($code) {
 	$response = $http->post($url, $options)->json();
 	
 	if (empty($response['access_token'])) {
-		throw new exception('can not get oauth token for temporary code');
+		$exception = bootstrap::get_library('exception');
+		throw new $exception('can not get oauth token for temporary code');
 	}
 	
 	return array(
@@ -445,7 +452,8 @@ public static function verify_user($oauth_token, $github_username) {
 	}
 	
 	if ($known_login->github_username != $github_username) {
-		throw new exception('oauth token switched user');
+		$exception = bootstrap::get_library('exception');
+		throw new $exception('oauth token switched user');
 	}
 	
 	return true;

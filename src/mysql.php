@@ -51,7 +51,8 @@ public static function connect() {
  */
 public static function select($type, $sql, $binds=null) {
 	if (in_array($type, self::$types) == false) {
-		throw new exception('unknown select type');
+		$exception = bootstrap::get_library('exception');
+		throw new $exception('unknown select type');
 	}
 	
 	$results = self::query($sql, $binds);
@@ -75,7 +76,8 @@ public static function query($sql, $binds=null) {
 	
 	// secure against wild update/delete statements
 	if (preg_match('{^UPDATE|DELETE\s}', $sql) && preg_match('{\sWHERE|LIMIT\s}', $sql) == false) {
-		throw new exception('unsafe UPDATE/DELETE statement, use a WHERE/LIMIT clause');
+		$exception = bootstrap::get_library('exception');
+		throw new $exception('unsafe UPDATE/DELETE statement, use a WHERE/LIMIT clause');
 	}
 	
 	return self::raw($sql);
@@ -89,9 +91,11 @@ public static function query($sql, $binds=null) {
  * @return mysqli_result
  */
 public static function raw($sql) {
+	$exception = bootstrap::get_library('exception');
+	$response  = bootstrap::get_library('response');
+	
 	if (is_null(self::$connection)) {
-		$response = bootstrap::get_library('response');
-		throw new exception('no db connection', $response::STATUS_SERVICE_UNAVAILABLE);
+		throw new $exception('no db connection', $response::STATUS_SERVICE_UNAVAILABLE);
 	}
 	
 	$result = self::$connection->query($sql);
@@ -99,7 +103,7 @@ public static function raw($sql) {
 	self::$error_number  = self::$connection->errno;
 	self::$error_message = self::$connection->error;
 	if (self::$error_number) {
-		throw new exception(self::$error_message, self::$error_number);
+		throw new $exception(self::$error_message, self::$error_number);
 	}
 	
 	if ($result instanceof \mysqli_result) {
@@ -122,7 +126,8 @@ public static function raw($sql) {
 protected static function get_config() {
 	$config_file = \alsvanzelf\fem\ROOT_DIR.'config/mysql.ini';
 	if (file_exists($config_file) == false) {
-		throw new exception('no db config found');
+		$exception = bootstrap::get_library('exception');
+		throw new $exception('no db config found');
 	}
 	
 	$config = parse_ini_file($config_file);
@@ -149,8 +154,9 @@ private static function merge($sql, $binds) {
 		$binds = (array)$binds;
 	}
 	if (is_null(self::$connection)) {
-		$response = bootstrap::get_library('response');
-		throw new exception('no db connection', $response::STATUS_SERVICE_UNAVAILABLE);
+		$exception = bootstrap::get_library('exception');
+		$response  = bootstrap::get_library('response');
+		throw new $exception('no db connection', $response::STATUS_SERVICE_UNAVAILABLE);
 	}
 	
 	foreach ($binds as &$argument) {
