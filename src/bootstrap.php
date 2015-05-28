@@ -4,6 +4,11 @@ namespace alsvanzelf\fem;
 
 class bootstrap {
 
+/**
+ * an array of custom libraries extending fem
+ */
+private static $custom_libraries;
+
 public function __construct() {
 	// we live in a
 	self::environment();
@@ -16,6 +21,43 @@ public function __construct() {
 	
 	// which we try to make
 	self::secure();
+}
+
+/**
+ * set a custom library for usage by other fem libraries
+ * use this when extending a fem library
+ * without this, fem will call the non-extended library in its own calls
+ * 
+ * @param  string $name         the name of the fem class, i.e. 'page'
+ * @param  string $custom_class the (fully qualified) name of the extending class
+ * @return void
+ */
+public static function set_custom_library($name, $custom_class) {
+	if (class_exists('\\alsvanzelf\\fem\\'.$name) == false) {
+		throw new \Exception('library does not exist in fem');
+	}
+	
+	self::$custom_libraries[$name] = $custom_class;
+}
+
+/**
+ * get the class name which should be used for a certain fem library
+ * used internally to determine whether a custom library has been set
+ * returns the fem class name if no custom library is set
+ * 
+ * @param  string $name the name of the fem class, i.e. 'page'
+ * @return string       the (fully qualified) name of the class which should be used
+ */
+public static function get_library($name) {
+	if (class_exists('\\alsvanzelf\\fem\\'.$name) == false) {
+		throw new \Exception('library does not exist in fem');
+	}
+	
+	if (isset(self::$custom_libraries[$name])) {
+		return self::$custom_libraries[$name];
+	}
+	
+	return '\\alsvanzelf\\fem\\'.$name;
 }
 
 /**
