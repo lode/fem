@@ -69,18 +69,20 @@ public function error($reason=null, $code=response::STATUS_INTERNAL_SERVER_ERROR
 		$error_data['user_message'] = $user_message;
 	}
 	if (ENVIRONMENT == 'development') {
+		$error_data['development'] = true;
+		
 		if ($reason) {
 			$error_data['reason'] = $reason;
 		}
 	}
 	
-	if (!empty($this->data['exception'])) {
-		if ($this->data['exception'] instanceof \alsvanzelf\fem\exception) {
+	if (!empty($this->data['exception']['current'])) {
+		if ($this->data['exception']['current'] instanceof \alsvanzelf\fem\exception) {
 			if (empty($error_data['user_message'])) {
-				$error_data['user_message'] = $this->data['exception']->getUserMessage();
+				$error_data['user_message'] = $this->data['exception']['current']->getUserMessage();
 			}
 			
-			$error_data['user_action'] = $this->data['exception']->getUserAction();
+			$error_data['user_action'] = $this->data['exception']['current']->getUserAction();
 		}
 		
 		if (ENVIRONMENT != 'development') {
@@ -91,7 +93,14 @@ public function error($reason=null, $code=response::STATUS_INTERNAL_SERVER_ERROR
 	$response::send_status($code);
 	
 	if (empty(static::$default_error_template)) {
-		static::show_default_error($error_data);
+		$page_data = array(
+			'error' => $error_data,
+		);
+		if (!empty($this->data['exception'])) {
+			$page_data['exception'] = $this->data['exception'];
+		}
+		
+		static::show_default_error($page_data);
 	}
 	else {
 		$this->data['title'] = $error_data['status_message'];
