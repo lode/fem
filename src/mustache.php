@@ -6,7 +6,6 @@ class mustache {
 
 protected static $cache_directory    = 'cache/mustache/';
 protected static $template_directory = 'application/templates/';
-protected static $logger = null;
 
 private static $engine = null;
 
@@ -26,7 +25,7 @@ protected static function init() {
 		'partials_loader'  => $loader,
 		'entity_flags'     => ENT_QUOTES|ENT_SUBSTITUTE|ENT_DISALLOWED,
 		'charset'          => 'UTF-8',
-		'logger'           => static::$logger,
+		'logger'           => new \Mustache_Logger_StreamLogger('php://stderr'), // bootstrap::get_library('logger')
 		'strict_callables' => true,
 		'pragmas'          => $pragmas,
 	);

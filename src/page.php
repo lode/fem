@@ -4,8 +4,6 @@ namespace alsvanzelf\fem;
 
 class page {
 
-protected static $renderer = '\alsvanzelf\fem\mustache';
-
 protected $data = array();
 
 public function __construct($title) {
@@ -17,8 +15,8 @@ public function show($template, $data=array()) {
 		$data['_'] = $this->data;
 	}
 	
-	$renderer = static::$renderer;
-	echo $renderer::render($template, $data);
+	$mustache = bootstrap::get_library('mustache');
+	echo $mustache::render($template, $data);
 }
 
 }
