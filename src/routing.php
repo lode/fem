@@ -65,9 +65,16 @@ protected $auto_instantiation = true;
  * @return void however, handle() will fire a handler or an error
  */
 public function __construct() {
-	$this->initialize();
-	$handler = $this->find_handler();
-	$this->handle($handler);
+	try {
+		$this->initialize();
+		$handler = $this->find_handler();
+		$this->handle($handler);
+	}
+	catch (\Exception $exception) {
+		$exception_class = bootstrap::get_library('exception');
+		
+		throw new $exception_class($exception);
+	}
 }
 
 /**
@@ -97,8 +104,8 @@ protected function handle($handler) {
 	
 	// unmatched requests
 	if (empty($handler) || empty($handler_type)) {
-		http_response_code(404);
-		exit;
+		$exception = bootstrap::get_library('exception');
+		throw new $exception('no route found', response::STATUS_NOT_FOUND);
 	}
 	
 	// default flow: matched requests
