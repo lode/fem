@@ -31,14 +31,36 @@ private static $connection  = null;
  * connects to the database, defined by ::get_config()
  * makes sure we have a strict and unicode aware connection
  * 
+ * @param  array $config optional, containing 'host', 'user', 'pass' and 'name' values
  * @return void
  */
-public static function connect() {
-	$config = self::get_config();
-	self::$connection = mysqli_connect($config['host'], $config['user'], $config['pass'], $config['name']);
+public static function connect($config=null) {
+	if (empty($config)) {
+		$config = self::get_config();
+	}
+	
+	self::$connection = new \mysqli($config['host'], $config['user'], $config['pass'], $config['name']);
 	
 	self::raw("SET NAMES utf8;");
 	self::raw("SET SQL_MODE='STRICT_ALL_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ZERO_DATE,NO_ZERO_IN_DATE';");
+}
+
+/**
+ * allows to get the current database handler
+ * 
+ * @return mysqli
+ */
+public static function get_connection_object() {
+	return self::$connection;
+}
+
+/**
+ * allows to set the current database handler
+ * 
+ * @param mysqli $connection
+ */
+public static function set_connection_object(\mysqli $connection) {
+	self::$connection = $connection;
 }
 
 /**
