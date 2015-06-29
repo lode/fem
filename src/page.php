@@ -9,6 +9,8 @@ protected $data = array();
 protected static $default_error_template;
 
 public function __construct($title=null) {
+	$this->data['environment_'.ENVIRONMENT] = true;
+	
 	if ($title) {
 		$this->data['title'] = $title;
 	}
