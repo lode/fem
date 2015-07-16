@@ -69,25 +69,67 @@ public static function get_method() {
  * get the http ($_POST) data
  * mainly useful for data from non-POST requests like PUT/PATCH/DELETE
  * 
+ * @note also converts json or xml to the array
+ * 
  * @return array a like $_POST
  */
 public static function get_data() {
-	if (static::get_method() == 'POST') {
+	if (static::get_method() == 'POST' && !empty($_POST)) {
 		return $_POST;
 	}
 	
 	$data_string = file_get_contents('php://input');
+	if (empty($data_string)) {
+		return array();
+	}
+	
+	// convert from json or xml
+	$type = self::get_content_type();
+	if ($type == 'json') {
+		return json_decode($data_string, true);
+	}
+	if ($type == 'xml') {
+		$xml_options =
+			LIBXML_NOCDATA|                  // convert CDATA to strings
+			LIBXML_COMPACT|                  // speed optimalization
+			LIBXML_NONET|                    // disable network access
+			LIBXML_NOERROR|LIBXML_NOWARNING; // turn off error reporting
+		$xml_data = simplexml_load_string($data_string, $class='SimpleXMLElement', $xml_options);
+		
+		return json_decode(json_encode($xml_data), true);
+	}
+	
 	parse_str($data_string, $data_array);
 	
 	return $data_array;
 }
 
 /**
+ * get the content type of the sent body
+ * 
+ * @return string @see ::get_primary_mime_type()
+ */
+public static function get_content_type() {
+	if (empty($_SERVER['CONTENT_TYPE'])) {
+		return null;
+	}
+	
+	// catch the most common formats
+	if ($_SERVER['CONTENT_TYPE'] == 'application/json') {
+		return 'json';
+	}
+	if ($_SERVER['CONTENT_TYPE'] == 'application/xml') {
+		return 'xml';
+	}
+	
+	// use a generic method
+	return self::get_primary_mime_type($_SERVER['CONTENT_TYPE']);
+}
+
+/**
  * get the primary http accepted output format for the current session
  * 
- * @return string the most interesting part of the accept header ..
- *                .. only the first format, and only the most determinating part ..
- *                i.e. 'text/html, ...' returns 'html' and 'application/json, ...' returns 'json'
+ * @return string @see ::get_primary_mime_type()
  */
 public static function get_primary_accept() {
 	if (empty($_SERVER['HTTP_ACCEPT'])) {
@@ -103,21 +145,33 @@ public static function get_primary_accept() {
 	}
 	
 	// use a generic method
-	$accept = $_SERVER['HTTP_ACCEPT'];
-	if (strpos($accept, ',')) {
-		$accept = substr($accept, 0, strpos($accept, ','));
+	return self::get_primary_mime_type($_SERVER['HTTP_ACCEPT']);
+}
+
+/**
+ * gets a friendly version of a mime type
+ * 
+ * @param  string $type
+ * @return string the most interesting part of the mime type ..
+ *                .. only the first format, and only the most determinating part ..
+ *                i.e. 'text/html, ...' returns 'html'
+ *                i.e. 'application/json, ...' returns 'json'
+ */
+private static function get_primary_mime_type($type) {
+	if (strpos($type, ',')) {
+		$type = substr($type, 0, strpos($type, ','));
 	}
-	if (strpos($accept, '/')) {
-		$accept = substr($accept, strpos($accept, '/')+1);
+	if (strpos($type, '/')) {
+		$type = substr($type, strpos($type, '/')+1);
 	}
-	if (strpos($accept, ';')) {
-		$accept = substr($accept, 0, strpos($accept, ';'));
+	if (strpos($type, ';')) {
+		$type = substr($type, 0, strpos($type, ';'));
 	}
-	if (strpos($accept, '+')) {
-		$accept = substr($accept, 0, strpos($accept, '+'));
+	if (strpos($type, '+')) {
+		$type = substr($type, 0, strpos($type, '+'));
 	}
 	
-	return $accept;
+	return $type;
 }
 
 /**
