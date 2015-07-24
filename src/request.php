@@ -133,14 +133,14 @@ public static function get_content_type() {
  */
 public static function get_primary_accept() {
 	if (empty($_SERVER['HTTP_ACCEPT'])) {
-		return 'html';
+		return '*';
 	}
 	
 	// catch the most common formats
-	if (strpos($_SERVER['HTTP_ACCEPT'], 'text/html,')) {
+	if (strpos($_SERVER['HTTP_ACCEPT'], 'text/html,') === 0) {
 		return 'html';
 	}
-	if (strpos($_SERVER['HTTP_ACCEPT'], 'application/json,')) {
+	if (strpos($_SERVER['HTTP_ACCEPT'], 'application/json,') === 0) {
 		return 'json';
 	}
 	
