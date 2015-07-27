@@ -8,10 +8,12 @@ class request {
  * redirect a browser session to a new url
  * also exists flow
  * 
- * @param  string $location relative to the host
+ * @param  string  $location       relative to the host
+ * @param  boolean $stop_execution defaults to true
+ * @param  int     $code           optional, status code instead of default 302
  * @return void
  */
-public static function redirect($location, $stop_execution=true) {
+public static function redirect($location, $stop_execution=true, $code=null) {
 	if (preg_match('{^(http(s)?:)?//}', $location) == false) {
 		$base_url  = 'http';
 		$base_url .= !empty($_SERVER['HTTPS']) ? 's' : '';
@@ -24,7 +26,7 @@ public static function redirect($location, $stop_execution=true) {
 		$location = $base_url.$location;
 	}
 	
-	header('Location: '.$location);
+	header('Location: '.$location, $replace=true, $code);
 	
 	if ($stop_execution == false) {
 		return;

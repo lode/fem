@@ -10,6 +10,9 @@ class response {
 const STATUS_OK                    = 200;
 const STATUS_CREATED               = 201;
 const STATUS_NO_CONTENT            = 204;
+const STATUS_NOT_MODIFIED          = 304;
+const STATUS_TEMPORARY_REDIRECT    = 307;
+const STATUS_PERMANENT_REDIRECT    = 308;
 const STATUS_BAD_REQUEST           = 400;
 const STATUS_UNAUTHORIZED          = 401;
 const STATUS_FORBIDDEN             = 403;
