@@ -5,7 +5,7 @@ namespace projectname;
 /**
  * find composer
  */
-require '../vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 
 /**
  * bootstraps the fem framework

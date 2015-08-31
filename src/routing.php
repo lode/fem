@@ -256,7 +256,7 @@ private function find_custom_handler() {
  *                        .. or false when unknown
  */
 private function get_handler_type($handler) {
-	if ($handler instanceof Closure) {
+	if ($handler instanceof \Closure) {
 		return 'function';
 	}
 	if (is_string($handler) == false) {

@@ -31,7 +31,7 @@ protected static function init() {
 	);
 	self::$engine = new \Mustache_Engine($options);
 	
-	foreach (self::get_helpers() as $name => $callable) {
+	foreach (static::get_helpers() as $name => $callable) {
 		self::$engine->addHelper($name, function($content) use($callable) {
 			return $callable($content);
 		});
