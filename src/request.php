@@ -170,7 +170,7 @@ private static function get_primary_mime_type($type) {
 		$type = substr($type, 0, strpos($type, ';'));
 	}
 	if (strpos($type, '+')) {
-		$type = substr($type, 0, strpos($type, '+'));
+		$type = substr($type, strpos($type, '+')+1);
 	}
 	
 	return $type;
