@@ -20,6 +20,14 @@ RewriteRule ^(.+)\.([\d]{10})\.(css|js)$ $1.$3 [L]
 	RewriteBase /
 	
 	
+	# block spammers w/o user agent
+	# i.e. java prototypes: http://serverfault.com/questions/308210/the-java-1-4-1-04-user-agent-clashes-404-with-some-jquery-javascript
+	# -----
+	RewriteCond %{HTTP_USER_AGENT} ^$ [OR]
+	RewriteCond %{HTTP_USER_AGENT} Java.*
+	RewriteRule ^.* - [F]
+	
+	
 	# nicer uris
 	# "/$1" fills the PATH_INFO
 	# -----
