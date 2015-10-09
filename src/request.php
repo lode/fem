@@ -151,6 +151,40 @@ public static function get_primary_accept() {
 }
 
 /**
+ * returns basic auth credentials
+ * this works around php cgi mode not passing them directly
+ * 
+ * @note this requires a change in the htaccess as well
+ * @see  example-project/public_html/.htaccess
+ * 
+ * @return array|null with 'USER' and 'PW' keys
+ */
+public static function get_basic_auth() {
+	// normally it just works
+	if (!empty($_SERVER['PHP_AUTH_USER'])) {
+		return array(
+			'USER' => $_SERVER['PHP_AUTH_USER'],
+			'PW'   => $_SERVER['PHP_AUTH_PW'],
+		);
+	}
+	
+	// php cgi mode requires a work around
+	if (!empty($_SERVER['REDIRECT_REMOTE_USER']) && strpos($_SERVER['REDIRECT_REMOTE_USER'], 'Basic ') === 0) {
+		$credentials = substr($_SERVER['REDIRECT_REMOTE_USER'], strlen('Basic '));
+		$credentials = base64_decode($credentials);
+		if (strpos($credentials, ':')) {
+			$credentials = explode(':', $credentials);
+			return array(
+				'USER' => $credentials[0],
+				'PW'   => $credentials[1],
+			);
+		}
+	}
+	
+	return null;
+}
+
+/**
  * gets a friendly version of a mime type
  * 
  * @param  string $type
