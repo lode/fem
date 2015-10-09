@@ -32,7 +32,6 @@ RewriteRule ^(.+)\.([\d]{10})\.(css|js)$ $1.$3 [L]
 	# basic auth in php cgi mode
 	# -----
 	
-	# RewriteEngine on
 	# RewriteCond %{HTTP:Authorization} (.+)
 	# RewriteRule .* - [E=REMOTE_USER:%{HTTP:Authorization},L]
 	
