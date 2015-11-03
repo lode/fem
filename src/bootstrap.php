@@ -65,7 +65,9 @@ public static function get_library($name) {
  * defines environment and root dir
  */
 private static function environment() {
-	define('alsvanzelf\fem\ENVIRONMENT',  getenv('APP_ENV'));
+	$environment = getenv('APP_ENV') ?: 'production';
+	
+	define('alsvanzelf\fem\ENVIRONMENT',  $environment);
 	define('alsvanzelf\fem\ROOT_DIR',     realpath(__DIR__.'/../../../../').'/');
 	define('alsvanzelf\fem\ROOT_DIR_APP', \alsvanzelf\fem\ROOT_DIR.'application/');
 	
