@@ -7,7 +7,7 @@ class mustache {
 protected static $cache_directory    = 'cache/mustache/';
 protected static $template_directory = 'application/templates/';
 
-private static $engine = null;
+protected static $engine = null;
 
 protected static function init() {
 	$loader_directory = \alsvanzelf\fem\ROOT_DIR.static::$template_directory;
