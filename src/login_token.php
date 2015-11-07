@@ -129,8 +129,9 @@ public function get_user_id() {
 public function mark_as_used() {
 	$mysql = bootstrap::get_library('mysql');
 	
-	$sql = "UPDATE `login_tokens` SET `used` = 1 WHERE `id` = %d;";
-	$mysql::query($sql, $this->data['id']);
+	$sql   = "UPDATE `login_tokens` SET `used` = 1, `last_used_at` = %d WHERE `id` = %d;";
+	$binds = array(time(), $this->data['id']);
+	$mysql::query($sql, $binds);
 }
 
 /**
