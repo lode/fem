@@ -68,6 +68,7 @@ public function error($reason=null, $code=response::STATUS_INTERNAL_SERVER_ERROR
 		'status_code'    => $code,
 		'status_message' => $response::get_status_message($code),
 	);
+	$error_data['status_code_is_'.$code] = true;
 	
 	if ($user_message) {
 		$error_data['user_message'] = $user_message;
