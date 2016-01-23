@@ -61,6 +61,11 @@ public static function check_composer_updates() {
 		throw new $exception('lock file is missing its packages');
 	}
 	
+	$composer_executable = 'composer';
+	if (file_exists(ROOT_DIR.'composer.phar')) {
+		$composer_executable = 'php composer.phar';
+	}
+	
 	$required_packages  = $composer_json['require'];
 	$installed_packages = $composer_lock['packages'];
 	$update_packages    = array();
@@ -82,7 +87,7 @@ public static function check_composer_updates() {
 		}
 		
 		// find out the newest release
-		$package_info = shell_exec('composer show -a '.escapeshellarg($package_name));
+		$package_info = shell_exec($composer_executable.' show -a '.escapeshellarg($package_name));
 		preg_match($version_regex, $package_info, $possible_version);
 		if (empty($possible_version)) {
 			$exception = bootstrap::get_library('exception');
