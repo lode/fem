@@ -70,6 +70,7 @@ private static function environment() {
 	define('alsvanzelf\fem\ENVIRONMENT',  $environment);
 	define('alsvanzelf\fem\ROOT_DIR',     realpath(__DIR__.'/../../../../').'/');
 	define('alsvanzelf\fem\ROOT_DIR_APP', \alsvanzelf\fem\ROOT_DIR.'application/');
+	define('alsvanzelf\fem\CLI',          (strpos(php_sapi_name(), 'cli') !== false || defined('STDIN')));
 	
 	if (constant('\alsvanzelf\fem\ENVIRONMENT') == false) {
 		echo 'no environment set';
@@ -114,6 +115,10 @@ private static function uncertain() {
  * and help against session fixation
  */
 private static function secure() {
+	if (fem\CLI) {
+		return;
+	}
+	
 	header_remove('X-Powered-By');
 	
 	ini_set('session.use_trans_sid',    0);
