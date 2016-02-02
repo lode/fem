@@ -115,7 +115,7 @@ private static function uncertain() {
  * and help against session fixation
  */
 private static function secure() {
-	if (fem\CLI) {
+	if (\alsvanzelf\fem\CLI) {
 		return;
 	}
 	
