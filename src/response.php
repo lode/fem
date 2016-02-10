@@ -55,6 +55,7 @@ public static function send_status($code) {
 
 /**
  * get the describing message of the status code
+ * 
  * @param  int    $code i.e. 404
  * @return string       i.e. 'Not found'
  */
@@ -65,6 +66,25 @@ public static function get_status_message($code) {
 	
 	$message = static::$status_messages[$code];
 	return $message;
+}
+
+/**
+ * force the user to download certain output
+ *
+ * @param  string $output
+ * @param  string $content_type optional, defaults to 'text/plain'
+ * @param  string $filename     optional, suggested filename when saving downloaded content
+ * @return void
+ */
+public static function download($output, $content_type='text/plain', $filename=null) {
+	$filename_postfix = ($filename) ? '; filename="'.$filename.'"' : '';
+	
+	// force download
+	header('Content-Type: '.$content_type.'; charset=utf-8');
+	header('Content-Disposition: attachment'.$filename_postfix);
+	
+	// write to browser
+	echo $output;
 }
 
 }
