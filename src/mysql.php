@@ -31,7 +31,7 @@ private static $connection  = null;
  * connects to the database, defined by ::get_config()
  * makes sure we have a strict and unicode aware connection
  * 
- * @param  array $config optional, containing 'host', 'user', 'pass' and 'name' values
+ * @param  array $config optional, containing 'host', 'user', 'pass', 'name', and 'port' values
  * @return void
  */
 public static function connect($config=null) {
@@ -39,7 +39,7 @@ public static function connect($config=null) {
 		$config = self::get_config();
 	}
 	
-	self::$connection = new \mysqli($config['host'], $config['user'], $config['pass'], $config['name']);
+	self::$connection = new \mysqli($config['host'], $config['user'], $config['pass'], $config['name'], $config['port']);
 	
 	self::raw("SET NAMES utf8;");
 	self::raw("SET SQL_MODE='STRICT_ALL_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ZERO_DATE,NO_ZERO_IN_DATE';");
@@ -143,19 +143,32 @@ public static function raw($sql) {
  * @note the password is expected to be in a base64 encoded format
  *       to help against shoulder surfing
  * 
- * @return array with 'host', 'user', 'pass', 'name' values
+ * @return array with 'host', 'user', 'pass', 'name', 'port' values
  */
 protected static function get_config() {
-	$config_file = \alsvanzelf\fem\ROOT_DIR.'config/mysql.ini';
-	if (file_exists($config_file) == false) {
-		$exception = bootstrap::get_library('exception');
-		throw new $exception('no db config found');
+	if (getenv('APP_MYSQL')) {
+		preg_match('{mysql://(?<user>[a-z0-9]+):(?<pass>[a-z0-9=]+)@(?<host>[a-z0-9.-]+):(?<port>[0-9]+)/(?<name>[a-z0-9_-]+)}i', getenv('APP_MYSQL'), $config);
 	}
-	
-	$config = parse_ini_file($config_file);
+	else {
+		$config_file = \alsvanzelf\fem\ROOT_DIR.'config/mysql.ini';
+		if (file_exists($config_file) == false) {
+			$exception = bootstrap::get_library('exception');
+			throw new $exception('no db config found');
+		}
+		
+		$config = parse_ini_file($config_file);
+	}
 	
 	// decode the password
 	$config['pass'] = base64_decode($config['pass']);
+	
+	// default the port number
+	if (empty($config['port'])) {
+		$config['port'] = 3306;
+	}
+	elseif (is_int($config['port']) === false) {
+		$config['port'] = (int) $config['port'];
+	}
 	
 	return $config;
 }
