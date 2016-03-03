@@ -147,7 +147,14 @@ public static function raw($sql) {
  */
 protected static function get_config() {
 	if (getenv('APP_MYSQL')) {
-		preg_match('{mysql://(?<user>[a-z0-9]+):(?<pass>[a-z0-9=]+)@(?<host>[a-z0-9.-]+):(?<port>[0-9]+)/(?<name>[a-z0-9_-]+)}i', getenv('APP_MYSQL'), $config);
+		$config = parse_url(getenv('APP_MYSQL'));
+		
+		// strip of the leading slash
+		$config['name'] = substr($config['path'], 1);
+		
+		// cleanup
+		unset($config['scheme']);
+		unset($config['path']);
 	}
 	else {
 		$config_file = \alsvanzelf\fem\ROOT_DIR.'config/mysql.ini';
