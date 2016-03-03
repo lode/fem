@@ -122,7 +122,7 @@ protected function handle($handler) {
 protected function find_handler_path($filename) {
 	$filename = strtolower($filename);
 	
-	if (preg_match('{[^a-z0-9/-]}', $filename)) {
+	if (preg_match('{[^a-z0-9/_-]}', $filename)) {
 		return false;
 	}
 	
