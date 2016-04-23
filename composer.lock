@@ -5,6 +5,7 @@
         "This file is @generated automatically"
     ],
     "hash": "211e5a1b390a2b25f9af639bb5f227c4",
+    "content-hash": "8030abb94761e422b4121d441b29bbc1",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -209,16 +210,16 @@
         },
         {
             "name": "mustache/mustache",
-            "version": "v2.8.0",
+            "version": "v2.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/mustache.php.git",
-                "reference": "64c28cc73e01d5edcef7de8cb2b16782615f648a"
+                "reference": "0bb2f76e2f34a8864a32be34c4ec66274d76c05e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/mustache.php/zipball/64c28cc73e01d5edcef7de8cb2b16782615f648a",
-                "reference": "64c28cc73e01d5edcef7de8cb2b16782615f648a",
+                "url": "https://api.github.com/repos/bobthecow/mustache.php/zipball/0bb2f76e2f34a8864a32be34c4ec66274d76c05e",
+                "reference": "0bb2f76e2f34a8864a32be34c4ec66274d76c05e",
                 "shasum": ""
             },
             "require": {
@@ -226,7 +227,7 @@
             },
             "require-dev": {
                 "fabpot/php-cs-fixer": "~1.6",
-                "phpunit/phpunit": "~3.7|~4.0"
+                "phpunit/phpunit": "~3.7|~4.0|~5.0"
             },
             "type": "library",
             "autoload": {
@@ -251,20 +252,20 @@
                 "mustache",
                 "templating"
             ],
-            "time": "2015-04-01 06:37:33"
+            "time": "2016-02-27 19:22:46"
         },
         {
             "name": "react/promise",
-            "version": "v2.2.0",
+            "version": "v2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/promise.git",
-                "reference": "365fcee430dfa4ace1fbc75737ca60ceea7eeeef"
+                "reference": "f942da7b505d1a294284ab343d05df42d02ad6d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/promise/zipball/365fcee430dfa4ace1fbc75737ca60ceea7eeeef",
-                "reference": "365fcee430dfa4ace1fbc75737ca60ceea7eeeef",
+                "url": "https://api.github.com/repos/reactphp/promise/zipball/f942da7b505d1a294284ab343d05df42d02ad6d9",
+                "reference": "f942da7b505d1a294284ab343d05df42d02ad6d9",
                 "shasum": ""
             },
             "require": {
@@ -291,11 +292,11 @@
             "authors": [
                 {
                     "name": "Jan Sorgalla",
-                    "email": "jsorgalla@googlemail.com"
+                    "email": "jsorgalla@gmail.com"
                 }
             ],
             "description": "A lightweight implementation of CommonJS Promises/A for PHP",
-            "time": "2014-12-30 13:32:42"
+            "time": "2016-03-31 13:10:33"
         },
         {
             "name": "swiftmailer/swiftmailer",
