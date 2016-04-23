@@ -31,6 +31,8 @@ private static $connection  = null;
  * connects to the database, defined by ::get_config()
  * makes sure we have a strict and unicode aware connection
  * 
+ * @see http://stackoverflow.com/questions/5741187/sql-injection-that-gets-around-mysql-real-escape-string
+ * 
  * @param  array $config optional, containing 'host', 'user', 'pass', 'name', and 'port' values
  * @return void
  */
@@ -50,6 +52,10 @@ public static function connect($config=null) {
 		'ERROR_FOR_DIVISION_BY_ZERO',
 		'NO_ZERO_DATE',
 		'NO_ZERO_IN_DATE',
+		// block the usage of double quotes to quote values
+		// as this is unsafe in some versions of mysql
+		// double quotes are now allowed to quote identifiers (next to backtick)
+		'ANSI_QUOTES',
 	);
 	$sql_modes_string = implode(',', $sql_modes);
 	
