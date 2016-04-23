@@ -155,9 +155,11 @@ public static function raw($sql) {
 }
 
 /**
- * collects the config for connecting from a ini file
+ * collects the config for connecting from:
+ * - an environment variable `APP_MYSQL`
+ * - a `config/mysql.ini` file
  * 
- * @note the password is expected to be in a base64 encoded format
+ * @note in the ini file, the password is expected to be in a base64 encoded format
  *       to help against shoulder surfing
  * 
  * @return array with 'host', 'user', 'pass', 'name', 'port' values
@@ -181,10 +183,10 @@ protected static function get_config() {
 		}
 		
 		$config = parse_ini_file($config_file);
+		
+		// decode the password
+		$config['pass'] = base64_decode($config['pass']);
 	}
-	
-	// decode the password
-	$config['pass'] = base64_decode($config['pass']);
 	
 	// default the port number
 	if (empty($config['port'])) {
