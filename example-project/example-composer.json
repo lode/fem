@@ -1,0 +1,10 @@
+{
+	"autoload": {
+		"psr-4": {
+			"projectname\\": "application/"
+		}
+	},
+	"require": {
+		"alsvanzelf/fem": "dev-master"
+	}
+}

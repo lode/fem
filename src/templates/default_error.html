@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{error.status_message}}</title>
+	<style type="text/css">
+		html {
+			background-color: white;
+		}
+		body {
+			{{# error.development}}
+				margin: 5em 5em 0;
+				width: auto;
+			{{/ error.development}}
+			{{^ error.development}}
+				margin: 5em auto 0;
+				width: 600px;
+			{{/ error.development}}
+			padding: 1em 3em;
+			font-family: Verdana;
+			border-radius: 6px;
+			background-color: #EEE;
+		}
+		h1, .subtitle {
+			text-align: center;
+		}
+		ul {
+			margin-top: 2em;
+			padding: 0;
+			text-align: center;
+			list-style-type: none;
+		}
+		hr {
+			border: 2px solid #CCC;
+		}
+	</style>
+</head>
+<body>
+	<h1>{{error.status_message}}</h1>
+	{{# error.user_message}}
+		<p class="subtitle">{{error.user_message}}</p>
+	{{/ error.user_message}}
+	{{^ error.user_message}}
+		<p class="subtitle">Sorry, something went wrong.</p>
+	{{/ error.user_message}}
+	{{# error.user_action}}
+		<p class="subtitle"><a href="{{error.user_action}}">Continue</a></p>
+	{{/ error.user_action}}
+	
+	<ul>
+		<li><a href="javascript:history.back()">Go back</a></li>
+		<li><a href="/">Go to the homepage</a></li>
+	</ul>
+	
+	{{^ exception}}
+		{{# error.reason}}
+			<hr>
+			<h3>Reason <small>shown for development only</small></h3>
+			<p>{{error.reason}}</p>
+		{{/ error.reason}}
+	{{/ exception}}
+	{{# exception}}
+		<hr>
+		<h3>Exception thrown <small>shown for development only</small></h3>
+		<p>{{exception.current.getUserMessage}}</p>
+		<p>
+			{{exception.current.getCode}}: {{exception.current.getMessage}}
+			<small>@ {{exception.current.getFile}}:{{exception.current.getLine}}</small>
+		</p>
+		<p>{{& exception.current_trace_string}}</p>
+		
+		{{# exception.previous}}
+			<h4>Previous exception thrown</h4>
+			<p>{{exception.previous.getUserMessage}}</p>
+			<p>
+				{{exception.previous.getCode}}: {{exception.previous.getMessage}}
+				<small>@ {{exception.previous.getFile}}:{{exception.previous.getLine}}</small>
+			</p>
+			<p>{{& exception.previous_trace_string}}</p>
+		{{/ exception.previous}}
+	{{/ exception}}
+</body>
+</html>

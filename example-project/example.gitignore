@@ -1,0 +1,6 @@
+# composer
+/vendor/
+
+# framework
+/cache/
+/config/
