@@ -42,29 +42,29 @@ See the [wiki for documentation](https://github.com/lode/fem/wiki).
 
 #### Basics
 
-- [mysql](mysql)
-- [page](page)
-- [routing](routing)
-- [exception](exception)
+- [mysql](https://github.com/lode/fem/wiki/mysql)
+- [page](https://github.com/lode/fem/wiki/page)
+- [routing](https://github.com/lode/fem/wiki/routing)
+- [exception](https://github.com/lode/fem/wiki/exception)
 
 #### Extras
 
-- [build](build)
-- [email](email)
-- [request](request)
-- [response](response)
-- [string](string)
+- [build](https://github.com/lode/fem/wiki/build)
+- [email](https://github.com/lode/fem/wiki/email)
+- [request](https://github.com/lode/fem/wiki/request)
+- [response](https://github.com/lode/fem/wiki/response)
+- [string](https://github.com/lode/fem/wiki/string)
 
 #### Users
 
-- [login](login) (via password, token, or oauth provider)
-- [session](session)
+- [login](https://github.com/lode/fem/wiki/login) (via password, token, or oauth provider)
+- [session](https://github.com/lode/fem/wiki/session)
 
 #### Advanced
 
-- [bootstrap](bootstrap)
-- [mustache](mustache)
-- [resources](resources)
+- [bootstrap](https://github.com/lode/fem/wiki/bootstrap)
+- [mustache](https://github.com/lode/fem/wiki/mustache)
+- [resources](https://github.com/lode/fem/wiki/resources)
 
 
 ## Contribute
