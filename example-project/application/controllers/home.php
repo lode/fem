@@ -3,5 +3,9 @@
 namespace projectname;
 use alsvanzelf\fem;
 
-$page = new fem\page('Home');
-$page->show('home');
+$template_data = array(
+	'planet' => 'World',
+);
+
+$page = new fem\page('Example project');
+$page->show('home', $template_data);
