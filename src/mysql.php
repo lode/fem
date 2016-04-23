@@ -41,7 +41,7 @@ public static function connect($config=null) {
 	
 	self::$connection = new \mysqli($config['host'], $config['user'], $config['pass'], $config['name'], $config['port']);
 	
-	self::raw("SET NAMES utf8;");
+	self::$connection->set_charset('utf8');
 	self::raw("SET SQL_MODE='STRICT_ALL_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ZERO_DATE,NO_ZERO_IN_DATE';");
 }
 
