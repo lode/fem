@@ -9,9 +9,9 @@ It doesn't decide your structure, models, or internal api.
 You are in control of your own code.
 There's as little magic as possible.
 
-- [Installation instructions](https://github.com/lode/fem/wiki)
-- [Gettings started](https://github.com/lode/fem/wiki)
-- [The components inside](https://github.com/lode/fem/wiki)
+- [Installation instructions](/README.md#install)
+- [Getting started](/README.md#getting-started)
+- [The components inside](/README.md#components)
 - [Documentation](https://github.com/lode/fem/wiki)
 
 
