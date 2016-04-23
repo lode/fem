@@ -12,6 +12,11 @@
 			"homepage": "http://www.lodeclaassen.nl/"
 		}
 	],
+	"support": {
+		"docs": "https://github.com/lode/fem/wiki",
+		"issues": "https://github.com/lode/fem/issues",
+		"source": "https://github.com/lode/fem/tree/master/src"
+	},
 	"require": {
 		"php": ">=5.4",
 		"ircmaxell/password-compat": "~1",
