@@ -64,7 +64,7 @@ public static function slugify($data) {
 	$data = mb_strtolower($data);
 	
 	// remove certain chars
-	$data = str_replace(array('"', "'"), '', $data);
+	$data = str_replace(['"', "'"], '', $data);
 	
 	// replace most chars
 	$data = preg_replace('/[^a-z0-9]/', '-', $data);
@@ -87,7 +87,7 @@ public static function slugify($data) {
  * @return string
  */
 public static function beautify($data) {
-	$data = str_replace(array('_', '-'), ' ', $data);
+	$data = str_replace(['_', '-'], ' ', $data);
 	$data = ucfirst($data);
 	
 	return $data;

@@ -25,7 +25,7 @@ const STATUS_SERVICE_UNAVAILABLE   = 503;
 /**
  * human facing strings briefly describing each error
  */
-protected static $status_messages = array(
+protected static $status_messages = [
 	200 => 'Ok',
 	201 => 'Created',
 	204 => 'No content',
@@ -37,7 +37,7 @@ protected static $status_messages = array(
 	422 => 'Unprocessable entity',
 	500 => 'Internal server error',
 	503 => 'Service unavailable',
-);
+];
 
 /**
  * send a status code to the browser

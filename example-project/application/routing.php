@@ -21,7 +21,7 @@ protected $map_to_filesystem = false;
  * @see \alsvanzelf\fem\routing::get_handler_type() for the different ways to define a handler
  */
 protected function get_custom_routes() {
-	$routes = array();
+	$routes = [];
 	
 	// map to a file
 	$routes['GET']['foo'] = 'bar';

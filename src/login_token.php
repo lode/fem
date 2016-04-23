@@ -130,7 +130,7 @@ public function mark_as_used() {
 	$mysql = bootstrap::get_library('mysql');
 	
 	$sql   = "UPDATE `login_tokens` SET `used` = 1, `last_used_at` = %d WHERE `id` = %d;";
-	$binds = array(time(), $this->data['id']);
+	$binds = [time(), $this->data['id']];
 	$mysql::query($sql, $binds);
 }
 
@@ -148,7 +148,7 @@ public static function create($user_id) {
 	$expiration = (time() + self::EXPIRATION);
 	
 	$sql   = "INSERT INTO `login_tokens` SET `code` = '%s', `user_id` = %d, `expire_at` = %d;";
-	$binds = array($new_token, $user_id, $expiration);
+	$binds = [$new_token, $user_id, $expiration];
 	$mysql::query($sql, $binds);
 	
 	return new static($mysql::$insert_id);

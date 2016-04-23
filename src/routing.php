@@ -90,7 +90,7 @@ public function __construct() {
  * @see get_handler_type() for the different ways to define a handler
  */
 protected function get_custom_routes() {
-	return array();
+	return [];
 }
 
 /**

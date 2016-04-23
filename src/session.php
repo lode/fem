@@ -50,10 +50,10 @@ protected static $validation_callback = null;
 const TYPE_TEMPORARY  = 'temporary';
 const TYPE_CONTINUOUS = 'continuous';
 
-private static $type_durations = array(
+private static $type_durations = [
 	'temporary'  => 3600,    // 1 hour
 	'continuous' => 2626260, // 1 month
-);
+];
 
 /**
  * intervals at which to change the session id or dump expired sessions
@@ -150,7 +150,7 @@ public static function start($type=null) {
 		// prevent session fixation
 		session_regenerate_id($delete=true);
 		
-		$_SESSION = array();
+		$_SESSION = [];
 		$_SESSION['_session_type'] = $type;
 	}
 	else {
@@ -181,7 +181,7 @@ public static function destroy() {
 		session_destroy();
 	}
 	
-	$_SESSION = array();
+	$_SESSION = [];
 	
 	self::destroy_cookie();
 }
@@ -468,14 +468,14 @@ private static function get_cookie_settings($type) {
 	$secure    = !empty($_SERVER['HTTPS']) ? true : false;
 	$http_only = true;
 	
-	return array(
+	return [
 		'name'      => $name,
 		'duration'  => $duration,
 		'domain'    => $domain,
 		'path'      => $path,
 		'secure'    => $secure,
 		'http_only' => $http_only,
-	);
+	];
 }
 
 /**

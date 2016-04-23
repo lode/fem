@@ -4,7 +4,7 @@ namespace alsvanzelf\fem;
 
 class page {
 
-protected $data = array();
+protected $data = [];
 
 protected static $default_error_template;
 
@@ -16,7 +16,7 @@ public function __construct($title=null) {
 	}
 }
 
-public function show($template, $data=array()) {
+public function show($template, $data=[]) {
 	if (empty($data['_'])) {
 		$data['_'] = $this->data;
 	}
@@ -64,10 +64,10 @@ public function exception($exception, $user_message=null) {
 public function error($reason=null, $code=response::STATUS_INTERNAL_SERVER_ERROR, $user_message=null) {
 	$response = bootstrap::get_library('response');
 	
-	$error_data = array(
+	$error_data = [
 		'status_code'    => $code,
 		'status_message' => $response::get_status_message($code),
-	);
+	];
 	$error_data['status_code_is_'.$code] = true;
 	
 	if ($user_message) {
@@ -98,9 +98,9 @@ public function error($reason=null, $code=response::STATUS_INTERNAL_SERVER_ERROR
 	$response::send_status($code);
 	
 	if (empty(static::$default_error_template)) {
-		$page_data = array(
+		$page_data = [
 			'error' => $error_data,
-		);
+		];
 		if (!empty($this->data['exception'])) {
 			$page_data['exception'] = $this->data['exception'];
 		}

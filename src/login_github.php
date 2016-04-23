@@ -189,7 +189,7 @@ public static function signup($user_id, $info) {
 		`oauth_token` = '%s',
 		`scope` = '%s'
 	;";
-	$binds = array($user_id, $info['github_username'], $info['oauth_token'], $info['scope']);
+	$binds = [$user_id, $info['github_username'], $info['oauth_token'], $info['scope']];
 	$mysql::query($sql, $binds);
 	
 	return new static($mysql::$insert_id);
@@ -238,7 +238,7 @@ public function update_oauth_token($new_oauth_token) {
 	$mysql = bootstrap::get_library('mysql');
 	
 	$sql   = "UPDATE `login_github` SET `oauth_token` = '%s' WHERE `id` = %d;";
-	$binds = array($new_oauth_token, $this->id);
+	$binds = [$new_oauth_token, $this->id];
 	$mysql::query($sql, $binds);
 }
 
@@ -275,11 +275,11 @@ public static function request_authorization($scope=null, $callback_url=null) {
 	
 	// let the user authorize at github
 	$url       = 'https://github.com/login/oauth/authorize';
-	$arguments = array(
+	$arguments = [
 		'client_id' => $config['client_id'],
 		'scope'     => $scope,
 		'state'     => $state,
-	);
+	];
 	$request::redirect($url.'?'.http_build_query($arguments));
 }
 
@@ -369,16 +369,16 @@ public static function exchange_for_oauth_token($code) {
 	$config = static::get_config();
 	
 	$url       = 'https://github.com/login/oauth/access_token';
-	$options   = array(
-		'body' => array( // 'json' || 'body' || 'query'
+	$options   = [
+		'body' => [ // 'json' || 'body' || 'query'
 			'client_id'     => $config['client_id'],
 			'client_secret' => $config['client_secret'],
 			'code'          => $code,
-		),
-		'headers' => array(
+		],
+		'headers' => [
 			'Accept' => 'application/json',
-		),
-	);
+		],
+	];
 	
 	$http = new \GuzzleHttp\Client();
 	$response = $http->post($url, $options)->json();
@@ -388,10 +388,10 @@ public static function exchange_for_oauth_token($code) {
 		throw new $exception('can not get oauth token for temporary code');
 	}
 	
-	return array(
+	return [
 		'oauth_token' => $response['access_token'],
 		'scope'       => $response['scope'],
-	);
+	];
 }
 
 /**
@@ -424,12 +424,12 @@ public static function verify_scope($received_scope, $requested_scope='user:emai
  */
 public static function get_user_info($oauth_token) {
 	$url     = 'https://api.github.com/user';
-	$options = array(
-		'headers' => array(
+	$options = [
+		'headers' => [
 			'Accept' => 'application/json',
 			'Authorization' => 'token '.$oauth_token,
-		),
-	);
+		],
+	];
 	
 	$http = new \GuzzleHttp\Client();
 	return $http->get($url, $options)->json();

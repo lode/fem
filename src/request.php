@@ -59,7 +59,7 @@ public static function get_method() {
 		return 'GET';
 	}
 	
-	$allowed_methods = array('GET', 'PUT', 'POST', 'PATCH', 'DELETE', 'OPTIONS', 'HEAD');
+	$allowed_methods = ['GET', 'PUT', 'POST', 'PATCH', 'DELETE', 'OPTIONS', 'HEAD'];
 	if (in_array($_SERVER['REQUEST_METHOD'], $allowed_methods) == false) {
 		return false;
 	}
@@ -82,7 +82,7 @@ public static function get_data() {
 	
 	$data_string = file_get_contents('php://input');
 	if (empty($data_string)) {
-		return array();
+		return [];
 	}
 	
 	// convert from json or xml
@@ -162,10 +162,10 @@ public static function get_primary_accept() {
 public static function get_basic_auth() {
 	// normally it just works
 	if (!empty($_SERVER['PHP_AUTH_USER'])) {
-		return array(
+		return [
 			'USER' => $_SERVER['PHP_AUTH_USER'],
 			'PW'   => $_SERVER['PHP_AUTH_PW'],
-		);
+		];
 	}
 	
 	// php cgi mode requires a work around
@@ -174,10 +174,10 @@ public static function get_basic_auth() {
 		$credentials = base64_decode($credentials);
 		if (strpos($credentials, ':')) {
 			$credentials = explode(':', $credentials);
-			return array(
+			return [
 				'USER' => $credentials[0],
 				'PW'   => $credentials[1],
-			);
+			];
 		}
 	}
 	
@@ -217,14 +217,14 @@ private static function get_primary_mime_type($type) {
  * @return array
  */
 public static function get_fingerprint() {
-	return array(
+	return [
 		'ip_address'      => !empty($_SERVER['REMOTE_ADDR']) ?          $_SERVER['REMOTE_ADDR']          : false,
 		'user_agent'      => !empty($_SERVER['HTTP_USER_AGENT']) ?      $_SERVER['HTTP_USER_AGENT']      : false,
 		'accept_content'  => !empty($_SERVER['HTTP_ACCEPT']) ?          $_SERVER['HTTP_ACCEPT']          : false,
 		'accept_charset'  => !empty($_SERVER['HTTP_ACCEPT_CHARSET']) ?  $_SERVER['HTTP_ACCEPT_CHARSET']  : false,
 		'accept_encoding' => !empty($_SERVER['HTTP_ACCEPT_ENCODING']) ? $_SERVER['HTTP_ACCEPT_ENCODING'] : false,
 		'accept_language' => !empty($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : false,
-	);
+	];
 }
 
 }

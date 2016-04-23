@@ -31,14 +31,14 @@ public static function login($config=null) {
  * 
  * @todo allow for html emails as well
  * 
- * @param  mixed  $recipient string or array(email => name)
+ * @param  mixed  $recipient string or [email => name]
  * @param  string $subject
  * @param  string $message   plain text only for now
  * @param  array  $options   array with optional 'cc', 'bcc', 'reply_to', 'attachment' options
  *                           'attachment' is expected to be an array with 'path' and 'mime' keys
  * @return void
  */
-public static function send($recipient, $subject, $body, $options=array()) {
+public static function send($recipient, $subject, $body, $options=[]) {
 	if (empty(self::$mailer)) {
 		self::login();
 	}
@@ -58,7 +58,7 @@ public static function send($recipient, $subject, $body, $options=array()) {
 		$subject = '['.ENVIRONMENT.'] '.$subject;
 	}
 	
-	$sender = array(self::$config['from'] => self::$config['name']);
+	$sender = [self::$config['from'] => self::$config['name']];
 	
 	$message = new \Swift_Message();
 	$message->setFrom($sender);
@@ -130,7 +130,7 @@ private static function protect_emailaddress($emailaddress) {
 	$emailaddress = str_replace('@', '+'.$emailaddress_key.'@', self::$config['from']);
 	
 	if ($recipient_name) {
-		$emailaddress = array($emailaddress => $recipient_name);
+		$emailaddress = [$emailaddress => $recipient_name];
 	}
 	
 	return $emailaddress;

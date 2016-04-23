@@ -124,7 +124,7 @@ public function add($user_id, $email_address, $password) {
 	$mysql = bootstrap::get_library('mysql');
 	
 	$sql   = "INSERT INTO `login_passwords` SET `user_id` = %d, `email_address` = '%s';";
-	$binds = array($user_id, $email_address);
+	$binds = [$user_id, $email_address];
 	$mysql::query($sql, $binds);
 	
 	$login = new static($mysql::$insert_id);
@@ -143,7 +143,7 @@ public function set_new_hash($new_hash) {
 	$mysql = bootstrap::get_library('mysql');
 	
 	$sql   = "UPDATE `login_passwords` SET `hash` = '%s' WHERE `id` = %d;";
-	$binds = array($new_hash, $this->data['id']);
+	$binds = [$new_hash, $this->data['id']];
 	$mysql::query($sql, $binds);
 	
 	$this->data['hash'] = $new_hash;

@@ -20,7 +20,7 @@ const AS_FIELD = 'field';
 const AS_ROW   = 'row';
 const AS_ARRAY = 'array';
 
-private static $types = array(self::AS_FIELD, self::AS_ROW, self::AS_ARRAY);
+private static $types = [self::AS_FIELD, self::AS_ROW, self::AS_ARRAY];
 
 /**
  * internal keepers of state
@@ -45,7 +45,7 @@ public static function connect($config=null) {
 	
 	self::$connection->set_charset('utf8');
 	
-	$sql_modes = array(
+	$sql_modes = [
 		// force correct column types
 		'STRICT_ALL_TABLES',
 		// extra's later included in strict mode
@@ -56,7 +56,7 @@ public static function connect($config=null) {
 		// as this is unsafe in some versions of mysql
 		// double quotes are now allowed to quote identifiers (next to backtick)
 		'ANSI_QUOTES',
-	);
+	];
 	$sql_modes_string = implode(',', $sql_modes);
 	
 	self::raw("SET SQL_MODE='".$sql_modes_string."';");
@@ -234,7 +234,7 @@ private static function merge($sql, $binds) {
  * @return array
  */
 private static function as_array(\mysqli_result $results) {
-	$array = array();
+	$array = [];
 	while ($row = $results->fetch_assoc()) {
 		$array[] = $row;
 	}

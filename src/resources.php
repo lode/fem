@@ -32,8 +32,8 @@ public static function timestamp_js($file, $async=false) {
  * @return string       $file with a timestamp before the extension
  */
 private static function get_timestamped_url($file, $type) {
-	$search  = array('{{root_dir}}', '{{type}}');
-	$replace = array(self::$root_dir, $type);
+	$search  = ['{{root_dir}}', '{{type}}'];
+	$replace = [self::$root_dir, $type];
 	$base_path = str_replace($search, $replace, self::$base_path);
 	$base_url  = str_replace($search, $replace, self::$base_url);
 	

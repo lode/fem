@@ -68,7 +68,7 @@ public static function check_composer_updates() {
 	
 	$required_packages  = $composer_json['require'];
 	$installed_packages = $composer_lock['packages'];
-	$update_packages    = array();
+	$update_packages    = [];
 	
 	foreach ($installed_packages as $installed_package) {
 		$package_name      = $installed_package['name'];
@@ -102,11 +102,11 @@ public static function check_composer_updates() {
 			continue;
 		}
 		
-		$update_packages[$package_name] = array(
+		$update_packages[$package_name] = [
 			'required'  => $required_packages[$package_name],
 			'installed' => $installed_version,
 			'possible'  => $possible_version[1],
-		);
+		];
 	}
 	
 	return $update_packages;

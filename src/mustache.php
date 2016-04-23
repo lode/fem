@@ -11,15 +11,15 @@ protected static $engine = null;
 
 protected static function init() {
 	$loader_directory = \alsvanzelf\fem\ROOT_DIR.static::$template_directory;
-	$loader_options   = array(
+	$loader_options   = [
 		'extension' => '.html'
-	);
+	];
 	$loader = new \Mustache_Loader_FilesystemLoader($loader_directory, $loader_options);
 	
-	$pragmas = array(
+	$pragmas = [
 		\Mustache_Engine::PRAGMA_FILTERS,
-	);
-	$options = array(
+	];
+	$options = [
 		'cache'            => \alsvanzelf\fem\ROOT_DIR.static::$cache_directory,
 		'loader'           => $loader,
 		'partials_loader'  => $loader,
@@ -28,7 +28,7 @@ protected static function init() {
 		'logger'           => new \Mustache_Logger_StreamLogger('php://stderr'), // bootstrap::get_library('logger')
 		'strict_callables' => true,
 		'pragmas'          => $pragmas,
-	);
+	];
 	self::$engine = new \Mustache_Engine($options);
 	
 	foreach (static::get_helpers() as $name => $callable) {
@@ -41,13 +41,13 @@ protected static function init() {
 protected static function get_helpers() {
 	$resources_class = bootstrap::get_library('resources');
 	
-	return array(
-		'resources_timestamp_css' => array($resources_class, 'timestamp_css'),
-		'resources_timestamp_js'  => array($resources_class, 'timestamp_js'),
-	);
+	return [
+		'resources_timestamp_css' => [$resources_class, 'timestamp_css'],
+		'resources_timestamp_js'  => [$resources_class, 'timestamp_js'],
+	];
 }
 
-public static function render($template, $data=array()) {
+public static function render($template, $data=[]) {
 	if (is_null(self::$engine)) {
 		static::init();
 	}
