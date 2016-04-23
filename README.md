@@ -9,6 +9,11 @@ It doesn't decide your structure, models, or internal api.
 You are in control of your own code.
 There's as little magic as possible.
 
+- [Installation instructions](https://github.com/lode/fem/wiki)
+- [Gettings started](https://github.com/lode/fem/wiki)
+- [The components inside](https://github.com/lode/fem/wiki)
+- [Documentation](https://github.com/lode/fem/wiki)
+
 
 ## Install
 
