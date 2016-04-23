@@ -1,1 +1,5 @@
 vendor/
+
+# prevent testing the example project getting into git
+example-project/cache
+example-project/composer.lock
