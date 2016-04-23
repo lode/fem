@@ -1,12 +1,11 @@
 # fem
 
 Fem is a framework for makers.
-
 Helping and guiding in building a (web) project.
 A flexible one, one that adjusts to people, one that can grow.
 
 Fem doesn't enforce a way of working.
-It doesn't decide your structure, models, or internal api
+It doesn't decide your structure, models, or internal api.
 You are in control of your own code.
 There's as little magic as possible.
 
@@ -32,9 +31,9 @@ Fem comes with a pre-setup example project.
    - `application/bootstrap.php`
    - `application/routing.php`
    - `application/controllers/home.php`
-4. Set up a virtual host, i.e. to `dev.projectname`
-5. Navigate to dev.projectname/
-6. Experiment with `application/controllers/home.php`
+4. Set up a virtual host, i.e. to `dev.projectname`.
+5. Navigate to dev.projectname
+6. Experiment with `application/controllers/home.php`.
 
 
 ## Components
@@ -58,9 +57,7 @@ See the [wiki for documentation](https://github.com/lode/fem/wiki).
 
 #### Users
 
-- [login_github](login_github)
-- [login_password](login_password)
-- [login_token](login_token)
+- [login](login) (via password, token, or oauth provider)
 - [session](session)
 
 #### Advanced
