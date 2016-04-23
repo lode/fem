@@ -17,9 +17,7 @@
 
 #### Users
 
-- [login_github](login_github)
-- [login_password](login_password)
-- [login_token](login_token)
+- [login](login) (via password, token, or oauth provider)
 - [session](session)
 
 #### Advanced
