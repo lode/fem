@@ -47,18 +47,19 @@ See the [wiki for documentation](https://github.com/lode/fem/wiki).
 
 #### Basics
 
-- [mysql](https://github.com/lode/fem/wiki/mysql)
-- [page](https://github.com/lode/fem/wiki/page)
 - [routing](https://github.com/lode/fem/wiki/routing)
-- [exception](https://github.com/lode/fem/wiki/exception)
+- [page](https://github.com/lode/fem/wiki/page)
+- [mysql](https://github.com/lode/fem/wiki/mysql)
+- [directory-structure](https://github.com/lode/fem/wiki/directory-structure)
 
 #### Extras
 
-- [build](https://github.com/lode/fem/wiki/build)
-- [email](https://github.com/lode/fem/wiki/email)
 - [request](https://github.com/lode/fem/wiki/request)
 - [response](https://github.com/lode/fem/wiki/response)
+- [exception](https://github.com/lode/fem/wiki/exception)
+- [email](https://github.com/lode/fem/wiki/email)
 - [string](https://github.com/lode/fem/wiki/string)
+- [build](https://github.com/lode/fem/wiki/build)
 
 #### Users
 
