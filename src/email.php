@@ -106,12 +106,17 @@ public static function validate($emailaddress) {
  * 
  * it returns the website's sender address with the original one as '+alias'
  * 
- * @param  string $emailaddress i.e. user@company.com
- * @return string               i.e. webmaster+user_company_com@project.com
+ * @param  string $emailaddress     i.e. user@company.com
+ * @param  string $catchall_address i.e. development@project.com
+ * @return string                   i.e. development+user_company_com@project.com
  */
-private static function protect_emailaddress($emailaddress) {
-	if (empty(self::$config)) {
-		self::load_config();
+public static function protect_emailaddress($emailaddress, $catchall_address=null) {
+	if (empty($catchall_address)) {
+		if (empty(self::$config)) {
+			self::load_config();
+		}
+		
+		$catchall_address = self::$config['from'];
 	}
 	
 	$recipient_name = null;
@@ -127,10 +132,10 @@ private static function protect_emailaddress($emailaddress) {
 	
 	
 	$emailaddress_key = preg_replace('{[^a-zA-Z0-9_]}', '_', $emailaddress);
-	$emailaddress = str_replace('@', '+'.$emailaddress_key.'@', self::$config['from']);
+	$emailaddress = str_replace('@', '+'.$emailaddress_key.'@', $catchall_address);
 	
 	if ($recipient_name) {
-		$emailaddress = [$emailaddress => $recipient_name];
+		$emailaddress = array($emailaddress => $recipient_name);
 	}
 	
 	return $emailaddress;
