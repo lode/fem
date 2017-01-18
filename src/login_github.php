@@ -262,12 +262,12 @@ public static function request_authorization($scope=null, $callback_url=null) {
 		$callback_url = $config['callback_url'];
 	}
 	
-	$string  = bootstrap::get_library('string');
+	$text    = bootstrap::get_library('text');
 	$session = bootstrap::get_library('session');
 	$request = bootstrap::get_library('request');
 	
 	// state is a shared secret to prevent people faking the callback
-	$state = $string::generate_token($length=40);
+	$state = $text::generate_token($length=40);
 	
 	$session::start(session::TYPE_TEMPORARY);
 	$_SESSION['fem/login_github/state'] = $state;

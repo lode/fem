@@ -141,10 +141,10 @@ public function mark_as_used() {
  * @return $this
  */
 public static function create($user_id) {
-	$string = bootstrap::get_library('string');
-	$mysql  = bootstrap::get_library('mysql');
+	$text  = bootstrap::get_library('text');
+	$mysql = bootstrap::get_library('mysql');
 	
-	$new_token  = $string::generate_token(self::TOKEN_LENGTH);
+	$new_token  = $text::generate_token(self::TOKEN_LENGTH);
 	$expiration = (time() + self::EXPIRATION);
 	
 	$sql   = "INSERT INTO `login_tokens` SET `code` = '%s', `user_id` = %d, `expire_at` = %d;";
