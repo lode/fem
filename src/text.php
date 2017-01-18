@@ -2,7 +2,7 @@
 
 namespace alsvanzelf\fem;
 
-class string {
+class text {
 
 /**
  * generates cryptographically strong tokens
