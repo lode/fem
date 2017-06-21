@@ -114,7 +114,7 @@ public static function query($sql, $binds=null) {
 	}
 	
 	// secure against wild update/delete statements
-	if (preg_match('{^UPDATE|DELETE\s}', $sql) && preg_match('{\sWHERE|LIMIT\s}', $sql) == false) {
+	if (preg_match('{^UPDATE|^DELETE\s}', $sql) && preg_match('{\sWHERE|LIMIT\s}', $sql) == false) {
 		$exception = bootstrap::get_library('exception');
 		throw new $exception('unsafe UPDATE/DELETE statement, use a WHERE/LIMIT clause');
 	}
