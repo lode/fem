@@ -63,16 +63,29 @@ public function getUserMessage() {
 /**
  * set a user facing link as continue action
  * 
- * @param string $userAction
+ * @param string $link
+ * @param string $label optional
  */
-public function setUserAction($userAction) {
-	$this->userAction = $userAction;
+public function setUserAction($link, $label=null) {
+	if ($label) {
+		$this->userAction = [
+			'link'  => $link,
+			'label' => $label,
+		];
+	}
+	else {
+		$this->userAction = $link;
+	}
 }
 
 /**
  * get the user facing link as continue action
  * 
- * @return string
+ * @return string $link
+ * @return array {
+ *         @var string $link
+ *         @var string $label
+ * }
  */
 public function getUserAction() {
 	return $this->userAction;
