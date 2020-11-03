@@ -1,9 +1,9 @@
 {
-	"name": "alsvanzelf/fem",
+	"name": "dlradviesgroep/fem",
 	"type": "library",
 	"description": "a framework for makers",
 	"keywords": ["framework"],
-	"homepage": "https://github.com/lode/fem",
+	"homepage": "https://github.com/dlradviesgroep/fem",
 	"license": "MIT",
 	"authors": [
 		{
@@ -13,9 +13,9 @@
 		}
 	],
 	"support": {
-		"docs": "https://github.com/lode/fem/wiki",
-		"issues": "https://github.com/lode/fem/issues",
-		"source": "https://github.com/lode/fem/tree/master/src"
+		"docs": "https://github.com/dlradviesgroep/fem/wiki",
+		"issues": "https://github.com/dlradviesgroep/fem/issues",
+		"source": "https://github.com/dlradviesgroep/fem/tree/master/src"
 	},
 	"require": {
 		"php": ">=5.4",
@@ -26,7 +26,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"alsvanzelf\\fem\\": "src/"
+			"dlradviesgroep\\fem\\": "src/"
 		}
 	}
 }
