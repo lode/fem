@@ -17,7 +17,7 @@ public static function redirect($location, $stop_execution=true, $code=null) {
 	if (preg_match('{^(http(s)?:)?//}', $location) == false) {
 		$base_url  = 'http';
 		$base_url .= !empty($_SERVER['HTTPS']) ? 's' : '';
-		$base_url .= '://'.$_SERVER['SERVER_NAME'];
+		$base_url .= '://'.$_SERVER['HTTP_HOST'];
 		
 		if (strpos($location, '/') !== 0) {
 			$base_url .= '/';
