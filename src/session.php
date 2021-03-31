@@ -140,11 +140,11 @@ public static function start($type=null) {
 	$cookie = self::get_cookie_settings($type);
 	session_set_cookie_params($cookie['duration'], $cookie['path'], $cookie['domain'], $cookie['secure'], $cookie['http_only']);
 	session_name($cookie['name']);
-	
-	session_start();
-	
+
 	// prevent garbage collection before the session expires
 	ini_set('session.gc_maxlifetime', $cookie['duration']);
+	
+	session_start();
 	
 	if (empty($_SESSION['_session_type'])) {
 		// prevent session fixation
