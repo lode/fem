@@ -216,7 +216,6 @@ public static function regenerate_id($interval_based=false) {
 	
 	// delay deleting the old session so ajax calls can continue
 	$_SESSION['_session_expire_at'] = (time() + self::TIMESPAN_EXPIRE);
-	session_write_close();
 	
 	session_regenerate_id();
 	
