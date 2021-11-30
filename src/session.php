@@ -370,7 +370,6 @@ private static function challenge() {
 	
 	$score = self::calculate_fingerprint_score($old_fingerprint, $new_fingerprint);
 	if ($score > 1.5) {
-		throw new $exception('challenge of cookie failed. Fingerprint score: '.$score);
 		return false;
 	}
 	
