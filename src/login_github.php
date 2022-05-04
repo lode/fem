@@ -381,7 +381,7 @@ public static function exchange_for_oauth_token($code) {
 	];
 	
 	$http = new \GuzzleHttp\Client();
-	$response = $http->post($url, $options)->json();
+	$response = json_decode($http->post($url, $options)->getBody());
 	
 	if (empty($response['access_token'])) {
 		$exception = bootstrap::get_library('exception');
