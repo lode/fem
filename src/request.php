@@ -13,7 +13,7 @@ class request {
  * @param  int     $code           optional, status code instead of default 302
  * @return void
  */
-public static function redirect($location, $stop_execution=true, $code=null) {
+public static function redirect($location, $stop_execution=true, $code=0) {
 	if (preg_match('{^(http(s)?:)?//}', $location) == false) {
 		$base_url  = 'http';
 		$base_url .= !empty($_SERVER['HTTPS']) ? 's' : '';
