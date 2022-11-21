@@ -530,7 +530,7 @@ private static function update_cookie_expiration($type, $expire_now=false) {
 	$expire = (time() + $params['duration']);
 	
 	if ($expire_now) {
-		$value  = null;
+		$value  = '';
 		$expire = (time() - 604800); // one week ago
 	}
 	
