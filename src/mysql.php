@@ -221,6 +221,9 @@ private static function merge($sql, $binds) {
 	}
 	
 	foreach ($binds as &$argument) {
+		if (is_null($argument)) {
+			continue;
+		}
 		$argument = self::$connection->real_escape_string($argument);
 	}
 	
